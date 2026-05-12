@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Write Article — Scribix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════
+   SCRIBIX WRITE PAGE — Notion × Medium × Premium
+══════════════════════════════════════════════════ */
+:root {
+  --bg:            #fdfcf9;
+  --bg-alt:        #f5f3ee;
+  --bg-card:       #ffffff;
+  --bg-toolbar:    rgba(253,252,249,0.94);
+  --border:        #e8e3d8;
+  --border-light:  #f0ece3;
+  --border-focus:  #7c3aed;
+  --text-primary:  #1a1612;
+  --text-body:     #2d2925;
+  --text-secondary:#6b6258;
+  --text-muted:    #a09488;
+  --text-placeholder: #c8bfb3;
+  --accent:        #7c3aed;
+  --accent-2:      #0ea5e9;
+  --accent-warm:   #f59e0b;
+  --gradient:      linear-gradient(135deg,#7c3aed 0%,#0ea5e9 100%);
+  --gradient-r:    linear-gradient(135deg,#0ea5e9 0%,#7c3aed 100%);
+  --gradient-soft: linear-gradient(135deg,rgba(124,58,237,.08),rgba(14,165,233,.06));
+  --gradient-text: linear-gradient(135deg,#a78bfa,#38bdf8);
+  --shadow-xs:     0 1px 3px rgba(26,22,18,.05);
+  --shadow-sm:     0 2px 10px rgba(26,22,18,.08);
+  --shadow-md:     0 8px 32px rgba(26,22,18,.1);
+  --shadow-lg:     0 20px 60px rgba(26,22,18,.12);
+  --shadow-glow:   0 0 24px rgba(124,58,237,.18);
+  --radius-sm:     8px;
+  --radius-md:     12px;
+  --radius-lg:     18px;
+  --font-serif:    'Lora', Georgia, serif;
+  --font-sans:     'Sora', system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', monospace;
+  --ease:          cubic-bezier(.4,0,.2,1);
+  --spring:        cubic-bezier(.34,1.56,.64,1);
+  --t:             .2s;
+
+  /* sidebar */
+  --sidebar-w:     300px;
+  /* editor */
+  --editor-max:    720px;
+}
+
+[data-theme="dark"] {
+  --bg:            #0f0d0a;
+  --bg-alt:        #161310;
+  --bg-card:       #1c1915;
+  --bg-toolbar:    rgba(15,13,10,0.94);
+  --border:        #2a2520;
+  --border-light:  #222018;
+  --border-focus:  #a78bfa;
+  --text-primary:  #f0ece6;
+  --text-body:     #d4cfc8;
+  --text-secondary:#9b9188;
+  --text-muted:    #6b6258;
+  --text-placeholder: #4a4540;
+  --shadow-sm:     0 2px 10px rgba(0,0,.4);
+  --shadow-md:     0 8px 32px rgba(0,0,0,.4);
+  --shadow-lg:     0 20px 60px rgba(0,0,0,.5);
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; height: 100%; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background var(--t) var(--ease), color var(--t) var(--ease);
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: var(--font-sans); border: none; background: none; }
+textarea, input, select { font-family: var(--font-sans); }
+
+/* ══════════════════════════════
+   TOP NAV BAR
+══════════════════════════════ */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 56px;
+  background: var(--bg-toolbar);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 0;
+  transition: all var(--t) var(--ease);
+}
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-icon {
+  width: 30px; height: 30px;
+  background: var(--gradient-soft);
+  border: 1px solid var(--border-focus);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-text {
+  font-size: 17px; font-weight: 700;
+  background: var(--gradient-text);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.topbar-divider {
+  width: 1px; height: 20px;
+  background: var(--border);
+  margin: 0 4px;
+}
+.breadcrumb-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12.5px; font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+.bc-icon { font-size: 13px; }
+
+.topbar-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+/* save status */
+.save-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+.save-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: background .3s;
+}
+.save-dot.saved { background: #22c55e; animation: savePop .4s var(--spring); }
+.save-dot.saving { background: var(--accent-warm); animation: pulse 1s ease infinite; }
+@keyframes savePop { 0%,100% { transform: scale(1); } 50% { transform: scale(1.5); } }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* word count */
+.word-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.tb-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px; font-weight: 600;
+  transition: all var(--t) var(--ease);
+  white-space: nowrap;
+}
+.tb-btn-ghost {
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.tb-btn-ghost:hover {
+  color: var(--accent);
+  border-color: var(--border-focus);
+  background: var(--gradient-soft);
+}
+.tb-btn-primary {
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(124,58,237,.3);
+}
+.tb-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(124,58,237,.4);
+}
+.tb-btn-primary:active { transform: translateY(0); }
+.theme-btn {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  transition: all var(--t) var(--ease);
+}
+.theme-btn:hover { border-color: var(--border-focus); }
+.moon-ic { display: none; }
+[data-theme="dark"] .sun-ic { display: none; }
+[data-theme="dark"] .moon-ic { display: block; }
+.avatar-btn {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--border-focus);
+  flex-shrink: 0;
+}
+.avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ══════════════════════════════
+   FORMAT TOOLBAR (floating)
+══════════════════════════════ */
+.format-bar {
+  position: fixed;
+  top: 65px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s var(--ease), transform .15s var(--ease);
+  transform: translateX(-50%) translateY(-6px);
+}
+.format-bar.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(-50%) translateY(0);
+}
+.fmt-btn {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+  color: var(--text-secondary);
+  transition: all var(--t) var(--ease);
+}
+.fmt-btn:hover { background: var(--bg-alt); color: var(--accent); }
+.fmt-btn.active { background: var(--gradient-soft); color: var(--accent); }
+.fmt-sep {
+  width: 1px; height: 16px;
+  background: var(--border);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════ */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-w);
+  min-height: 100vh;
+  padding-top: 56px;
+}
+
+/* ══════════════════════════════
+   EDITOR COLUMN
+══════════════════════════════ */
+.editor-col {
+  padding: 0 48px 80px;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Cover upload area */
+.cover-zone {
+  margin: 32px 0 0;
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--border);
+  background: var(--bg-alt);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cover-zone:hover {
+  border-color: var(--border-focus);
+  background: var(--gradient-soft);
+}
+.cover-zone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+.cover-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+}
+.cover-placeholder-icon {
+  width: 52px; height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--t) var(--ease);
+}
+.cover-zone:hover .cover-placeholder-icon { transform: scale(1.08); border-color: var(--border-focus); }
+.cover-placeholder strong { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+.cover-placeholder span { font-size: 12.5px; color: var(--text-muted); }
+.cover-preview {
+  position: absolute; inset: 0;
+  display: none;
+}
+.cover-preview img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.cover-preview-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.4);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity var(--t) var(--ease);
+}
+.cover-zone:hover .cover-preview-overlay { opacity: 1; }
+.cover-preview-overlay span {
+  color: #fff; font-size: 13px; font-weight: 600;
+  background: rgba(0,0,0,.6);
+  padding: 8px 18px; border-radius: 50px;
+}
+
+/* Article meta row */
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 0 0;
+  flex-wrap: wrap;
+}
+.category-select {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 13px; font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23a09488' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+.category-select:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(124,58,237,.1); }
+[data-theme="dark"] .category-select { background-color: var(--bg-card); color: var(--text-secondary); }
+
+.tags-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+.tag-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 50px;
+  font-size: 12px; font-weight: 600;
+  background: var(--gradient-soft);
+  border: 1px solid var(--border-focus);
+  color: var(--accent);
+}
+.tag-pill button {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--accent);
+  opacity: .6;
+  transition: opacity var(--t);
+}
+.tag-pill button:hover { opacity: 1; }
+.tag-input {
+  border: none; outline: none;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-primary);
+  background: transparent;
+  min-width: 100px;
+}
+.tag-input::placeholder { color: var(--text-muted); }
+.add-tag-hint {
+  font-size: 12px; color: var(--text-muted);
+  display: flex; align-items: center; gap: 4px;
+}
+kbd {
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 10px; font-weight: 600;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── Title / Subtitle ── */
+.title-input {
+  width: 100%;
+  margin-top: 28px;
+  padding: 4px 0;
+  border: none; outline: none;
+  font-family: var(--font-serif);
+  font-size: clamp(28px,4vw,46px);
+  font-weight: 700;
+  line-height: 1.18;
+  color: var(--text-primary);
+  background: transparent;
+  resize: none;
+  overflow: hidden;
+  caret-color: var(--accent);
+  letter-spacing: -.3px;
+}
+.title-input::placeholder { color: var(--text-placeholder); }
+
+.subtitle-input {
+  width: 100%;
+  margin-top: 12px;
+  padding: 4px 0;
+  border: none; outline: none;
+  font-family: var(--font-serif);
+  font-size: clamp(16px,2vw,21px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  background: transparent;
+  resize: none;
+  overflow: hidden;
+  caret-color: var(--accent);
+}
+.subtitle-input::placeholder { color: var(--text-placeholder); }
+
+/* ── Divider ── */
+.editor-divider {
+  width: 40px; height: 3px;
+  background: var(--gradient);
+  border-radius: 2px;
+  margin: 20px 0;
+  opacity: .5;
+}
+
+/* ── Rich text editor ── */
+.editor-area {
+  width: 100%;
+  min-height: 500px;
+  padding: 4px 0 80px;
+  border: none; outline: none;
+  font-family: var(--font-serif);
+  font-size: clamp(16px,1.6vw,19px);
+  line-height: 1.82;
+  color: var(--text-body);
+  background: transparent;
+  resize: none;
+  overflow: hidden;
+  caret-color: var(--accent);
+}
+.editor-area::placeholder { color: var(--text-placeholder); }
+.editor-area:focus::placeholder { color: transparent; }
+
+/* floating placeholder hint */
+.editor-hint {
+  position: absolute;
+  pointer-events: none;
+  font-size: 14px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.editor-hint.show { opacity: 1; }
+.hint-kbd {
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 11px; font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  background: var(--bg-alt);
+}
+
+/* slash command popup */
+.slash-menu {
+  position: fixed;
+  z-index: 300;
+  width: 260px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  display: none;
+  animation: popIn .15s var(--spring);
+}
+.slash-menu.open { display: block; }
+@keyframes popIn { from { opacity:0; transform:scale(.94) translateY(-6px); } to { opacity:1; transform:scale(1) translateY(0); } }
+.slash-menu-head {
+  padding: 10px 14px 6px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+.slash-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+}
+.slash-item:hover, .slash-item.active {
+  background: var(--bg-alt);
+  color: var(--accent);
+}
+.slash-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+  transition: border-color var(--t);
+}
+.slash-item:hover .slash-icon { border-color: var(--border-focus); }
+.slash-item-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.slash-item-text span { font-size: 11.5px; color: var(--text-muted); }
+.slash-item:hover .slash-item-text strong { color: var(--accent); }
+
+/* progress bar */
+.write-progress {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 3px; width: 0%;
+  background: var(--gradient);
+  z-index: 300;
+  border-radius: 0 2px 2px 0;
+  transition: width .3s var(--ease);
+}
+
+/* ══════════════════════════════
+   AI SIDEBAR
+══════════════════════════════ */
+.ai-sidebar {
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  border-left: 1px solid var(--border);
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all var(--t) var(--ease);
+}
+
+/* sidebar header */
+.ai-sidebar-head {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.ai-sidebar-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.ai-glow-icon {
+  width: 30px; height: 30px;
+  background: var(--gradient);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 10px rgba(124,58,237,.35);
+  position: relative;
+}
+.ai-glow-icon::after {
+  content: '';
+  position: absolute; inset: -3px;
+  border-radius: 10px;
+  background: var(--gradient);
+  opacity: .25;
+  filter: blur(5px);
+  z-index: -1;
+  animation: glowPulse 2.5s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100% { opacity:.2; } 50% { opacity:.4; } }
+.ai-sidebar-title h3 { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.ai-sidebar-title span { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+.ai-status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: dot-pulse 2s ease infinite;
+}
+@keyframes dot-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,.5); } 50% { box-shadow: 0 0 0 5px rgba(34,197,94,0); } }
+
+/* sidebar scroll body */
+.ai-sidebar-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.ai-sidebar-body::-webkit-scrollbar { width: 4px; }
+.ai-sidebar-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* section label */
+.ai-section-label {
+  font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  margin: 16px 0 8px;
+}
+.ai-section-label:first-child { margin-top: 0; }
+
+/* AI tool cards */
+.ai-tool {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 13px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+  margin-bottom: 7px;
+  position: relative;
+  overflow: hidden;
+}
+.ai-tool::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--gradient);
+  transform: scaleY(0);
+  transition: transform var(--t) var(--spring);
+}
+.ai-tool:hover { border-color: var(--border-focus); background: var(--gradient-soft); transform: translateX(3px); }
+.ai-tool:hover::before { transform: scaleY(1); }
+.ai-tool.loading { pointer-events: none; opacity: .7; }
+.ai-tool-icon {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: transform var(--t) var(--spring);
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+.ai-tool:hover .ai-tool-icon { transform: scale(1.1); border-color: var(--border-focus); }
+.ai-tool-content { flex: 1; min-width: 0; }
+.ai-tool-content strong {
+  display: block;
+  font-size: 13px; font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+  transition: color var(--t);
+}
+.ai-tool-content span {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.ai-tool:hover .ai-tool-content strong { color: var(--accent); }
+.ai-tool-arrow {
+  color: var(--text-muted);
+  font-size: 14px;
+  transition: all var(--t) var(--ease);
+  flex-shrink: 0;
+}
+.ai-tool:hover .ai-tool-arrow { color: var(--accent); transform: translateX(2px); }
+
+/* AI result panel */
+.ai-result {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-focus);
+  background: var(--gradient-soft);
+  overflow: hidden;
+  margin-bottom: 12px;
+  display: none;
+  animation: slideDown .25s var(--ease);
+}
+.ai-result.open { display: block; }
+@keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+.ai-result-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 13px 8px;
+  border-bottom: 1px solid rgba(124,58,237,.12);
+}
+.ai-result-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px; font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+}
+.ai-result-label::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.5s ease infinite;
+}
+.ai-result-close {
+  width: 20px; height: 20px;
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); font-size: 12px;
+  transition: all var(--t);
+}
+.ai-result-close:hover { background: var(--bg-alt); color: var(--text-primary); }
+.ai-result-body {
+  padding: 12px 14px;
+  font-size: 13px; line-height: 1.7;
+  color: var(--text-body);
+  font-family: var(--font-serif);
+  max-height: 180px;
+  overflow-y: auto;
+}
+.ai-result-footer {
+  display: flex;
+  gap: 6px;
+  padding: 10px 13px;
+  border-top: 1px solid rgba(124,58,237,.1);
+}
+.ai-result-btn {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 12px; font-weight: 600; font-family: var(--font-sans);
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  transition: all var(--t) var(--ease);
+}
+.ai-result-btn-primary {
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(124,58,237,.25);
+}
+.ai-result-btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.ai-result-btn-ghost {
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  background: var(--bg-card);
+}
+.ai-result-btn-ghost:hover { border-color: var(--border-focus); color: var(--accent); }
+
+/* typing animation */
+.ai-typing {
+  display: none;
+  align-items: center;
+  gap: 5px;
+  padding: 14px;
+}
+.ai-typing.show { display: flex; }
+.ai-typing span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: dot-bounce 1.2s ease infinite;
+  opacity: .4;
+}
+.ai-typing span:nth-child(2) { animation-delay: .2s; }
+.ai-typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes dot-bounce { 0%,100% { transform:translateY(0); opacity:.4; } 50% { transform:translateY(-5px); opacity:1; } }
+
+/* SEO score panel */
+.seo-panel {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.seo-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 13px;
+  cursor: pointer;
+  transition: background var(--t);
+}
+.seo-head:hover { background: var(--bg-alt); }
+.seo-head-left { display: flex; align-items: center; gap: 8px; }
+.seo-score {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: conic-gradient(#22c55e calc(78% * 1deg * 3.6), var(--border) 0);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.seo-score::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--bg-card);
+}
+.seo-score-num {
+  position: relative;
+  font-size: 10px; font-weight: 700;
+  color: #16a34a;
+  font-family: var(--font-mono);
+  z-index: 1;
+}
+.seo-title-text { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.seo-sub { font-size: 11px; color: var(--text-muted); }
+.seo-chevron {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: transform var(--t);
+}
+.seo-panel.open .seo-chevron { transform: rotate(180deg); }
+.seo-body {
+  padding: 0 13px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s var(--ease), padding .3s;
+}
+.seo-panel.open .seo-body { max-height: 400px; padding: 10px 13px 14px; }
+.seo-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 12.5px;
+}
+.seo-item:last-child { border-bottom: none; }
+.seo-check {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  flex-shrink: 0;
+}
+.seo-check.ok { background: #dcfce7; color: #16a34a; }
+.seo-check.warn { background: #fef9c3; color: #854d0e; }
+.seo-check.err { background: #fee2e2; color: #991b1b; }
+.seo-item-text { flex: 1; color: var(--text-secondary); }
+.seo-item-score { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+
+/* Document stats */
+.doc-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 8px;
+}
+.doc-stat {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+.doc-stat strong { display: block; font-size: 18px; font-weight: 700; color: var(--text-primary); font-family: var(--font-mono); }
+.doc-stat span { font-size: 11px; color: var(--text-muted); }
+
+/* sidebar toggle (mobile) */
+.sidebar-toggle {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 400;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: #fff;
+  display: none;
+  align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 6px 20px rgba(124,58,237,.4);
+  transition: all var(--t) var(--ease);
+}
+.sidebar-toggle:hover { transform: scale(1.08); }
+
+/* ══════════════════════════════
+   TOAST
+══════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: #1a1612;
+  color: #fff;
+  padding: 11px 22px;
+  border-radius: 50px;
+  font-size: 13px; font-weight: 600;
+  box-shadow: var(--shadow-md);
+  display: flex; align-items: center; gap: 9px;
+  transition: transform .32s var(--spring), opacity .22s var(--ease);
+  opacity: 0;
+  z-index: 9999;
+  white-space: nowrap;
+  border: 1px solid rgba(255,255,255,.1);
+  pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.success::before { content:'✓'; color:#4ade80; font-weight:800; }
+.toast.error::before   { content:'✕'; color:#f87171; font-weight:800; }
+.toast.info::before    { content:'⚡'; }
+
+/* Publish modal */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,.4);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .22s var(--ease);
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 36px;
+  max-width: 480px; width: 92%;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(20px) scale(.97);
+  transition: transform .3s var(--spring);
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+.modal-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.modal-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+.modal-checklist { display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; }
+.modal-check {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+.modal-check-icon { font-size: 17px; flex-shrink: 0; }
+.modal-check-text strong { display: block; font-size: 13.5px; font-weight: 600; color: var(--text-primary); }
+.modal-check-text span { font-size: 12px; color: var(--text-muted); }
+.modal-check.ok { border-color: #bbf7d0; background: #f0fdf4; }
+.modal-check.warn { border-color: #fde68a; background: #fffbeb; }
+[data-theme="dark"] .modal-check.ok { border-color: #166534; background: rgba(22,163,74,.1); }
+[data-theme="dark"] .modal-check.warn { border-color: #92400e; background: rgba(245,158,11,.1); }
+.modal-footer { display: flex; gap: 10px; }
+.modal-btn {
+  flex: 1; padding: 12px;
+  border-radius: 10px;
+  font-size: 14px; font-weight: 700; font-family: var(--font-sans);
+  transition: all var(--t) var(--ease);
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.modal-btn-cancel {
+  border: 1.5px solid var(--border);
+  color: var(--text-secondary);
+  background: var(--bg-alt);
+}
+.modal-btn-cancel:hover { border-color: var(--border-focus); color: var(--accent); }
+.modal-btn-publish {
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(124,58,237,.35);
+}
+.modal-btn-publish:hover { transform: translateY(-2px); box-shadow: 0 7px 22px rgba(124,58,237,.45); }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 260px; }
+  .editor-col { padding: 0 28px 80px; }
+}
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+  .ai-sidebar {
+    position: fixed;
+    top: 56px; right: 0; bottom: 0;
+    width: 300px;
+    transform: translateX(100%);
+    z-index: 150;
+    box-shadow: var(--shadow-lg);
+    transition: transform .3s var(--ease);
+  }
+  .ai-sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: flex; }
+  .editor-col { padding: 0 20px 80px; }
+  .topbar { padding: 0 14px; }
+  .breadcrumb-chip { display: none; }
+  .word-count { display: none; }
+}
+@media (max-width: 480px) {
+  .tb-btn-ghost:not(.always) { display: none; }
+  .topbar-center { flex: 0; }
+  .save-status span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     TOP BAR
+══════════════════════════════ -->
+<nav class="topbar" id="topbar">
+  <div class="topbar-left">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+          <defs><linearGradient id="tlg" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+          <path d="M4 6C4 4.9 4.9 4 6 4h10l8 8v10c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6z" fill="url(#tlg)" opacity=".25"/>
+          <path d="M14 4l8 8h-6a2 2 0 01-2-2V4z" fill="url(#tlg)" opacity=".6"/>
+          <path d="M8 13h12M8 17h8" stroke="url(#tlg)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="logo-text">Scribix</span>
+    </a>
+    <div class="topbar-divider"></div>
+    <div class="breadcrumb-chip">
+      <span class="bc-icon">✍️</span>
+      <span>New Article</span>
+    </div>
+  </div>
+
+  <div class="topbar-center">
+    <div class="save-status">
+      <span class="save-dot" id="saveDot"></span>
+      <span id="saveLabel">Draft saved</span>
+    </div>
+    <span class="word-count" id="wordCountTop">0 words</span>
+  </div>
+
+  <div class="topbar-right">
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+      <span class="sun-ic">☀️</span>
+      <span class="moon-ic">🌙</span>
+    </button>
+    <button class="tb-btn tb-btn-ghost" id="saveDraftBtn">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+        <polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+      </svg>
+      Save Draft
+    </button>
+    <button class="tb-btn tb-btn-primary" id="publishBtn">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/>
+      </svg>
+      Publish
+    </button>
+    <button class="avatar-btn">
+      <img src="https://i.pravatar.cc/64?img=33" alt="You"/>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════
+     FORMAT BAR (floating, shown on text select)
+══════════════════════════════ -->
+<div class="format-bar" id="formatBar">
+  <button class="fmt-btn" data-fmt="bold" title="Bold"><b>B</b></button>
+  <button class="fmt-btn" data-fmt="italic" title="Italic"><i>I</i></button>
+  <button class="fmt-btn" data-fmt="underline" title="Underline"><u>U</u></button>
+  <div class="fmt-sep"></div>
+  <button class="fmt-btn" data-fmt="h1" title="Heading 1" style="font-size:11px;font-weight:800;">H1</button>
+  <button class="fmt-btn" data-fmt="h2" title="Heading 2" style="font-size:11px;font-weight:700;">H2</button>
+  <div class="fmt-sep"></div>
+  <button class="fmt-btn" data-fmt="quote" title="Quote" style="font-size:16px;">"</button>
+  <button class="fmt-btn" data-fmt="code" title="Code" style="font-size:11px;font-family:monospace;">{ }</button>
+  <button class="fmt-btn" data-fmt="link" title="Link">🔗</button>
+</div>
+
+<!-- ══════════════════════════════
+     SLASH COMMAND MENU
+══════════════════════════════ -->
+<div class="slash-menu" id="slashMenu">
+  <div class="slash-menu-head">Insert block</div>
+  <div class="slash-item" data-insert="## Heading">
+    <div class="slash-icon">H2</div>
+    <div class="slash-item-text"><strong>Heading 2</strong><span>Large section title</span></div>
+  </div>
+  <div class="slash-item" data-insert="### Sub-heading">
+    <div class="slash-icon" style="font-size:12px;">H3</div>
+    <div class="slash-item-text"><strong>Heading 3</strong><span>Sub-section title</span></div>
+  </div>
+  <div class="slash-item" data-insert="> Blockquote">
+    <div class="slash-icon">"</div>
+    <div class="slash-item-text"><strong>Blockquote</strong><span>Highlight a quote</span></div>
+  </div>
+  <div class="slash-item" data-insert="---">
+    <div class="slash-icon">—</div>
+    <div class="slash-item-text"><strong>Divider</strong><span>Horizontal rule</span></div>
+  </div>
+  <div class="slash-item" data-insert="• List item">
+    <div class="slash-icon">•</div>
+    <div class="slash-item-text"><strong>Bullet list</strong><span>Unordered list</span></div>
+  </div>
+  <div class="slash-item" data-insert="`code block`">
+    <div class="slash-icon" style="font-family:monospace;font-size:12px;">{}</div>
+    <div class="slash-item-text"><strong>Code</strong><span>Inline or block code</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     LAYOUT
+══════════════════════════════ -->
+<div class="layout">
+
+  <!-- ─── EDITOR COLUMN ─── -->
+  <div class="editor-col">
+
+    <!-- Cover upload -->
+    <div class="cover-zone" id="coverZone">
+      <input type="file" id="coverInput" accept="image/*"/>
+      <div class="cover-placeholder">
+        <div class="cover-placeholder-icon">🖼️</div>
+        <strong>Add a cover image</strong>
+        <span>Click to upload · JPG, PNG, WebP · 16:9 recommended</span>
+      </div>
+      <div class="cover-preview" id="coverPreview">
+        <img id="coverImg" src="" alt="Cover"/>
+        <div class="cover-preview-overlay"><span>Change cover</span></div>
+      </div>
+    </div>
+
+    <!-- Meta row -->
+    <div class="meta-row">
+      <select class="category-select" id="categorySelect">
+        <option value="">📂 Category</option>
+        <option value="ai">🤖 AI & Tech</option>
+        <option value="design">🎨 Design</option>
+        <option value="startup">🚀 Startups</option>
+        <option value="productivity">⚡ Productivity</option>
+        <option value="science">🔬 Science</option>
+        <option value="culture">🌍 Culture</option>
+        <option value="personal">✍️ Personal Growth</option>
+        <option value="finance">💰 Finance</option>
+      </select>
+
+      <div class="tags-wrap" id="tagsWrap">
+        <input
+          type="text"
+          class="tag-input"
+          id="tagInput"
+          placeholder="Add tags…"
+          maxlength="24"
+        />
+      </div>
+      <div class="add-tag-hint">Press <kbd>Enter</kbd> to add</div>
+    </div>
+
+    <!-- Title -->
+    <textarea
+      class="title-input"
+      id="titleInput"
+      placeholder="Your article title…"
+      rows="1"
+      maxlength="140"
+    ></textarea>
+
+    <!-- Subtitle -->
+    <textarea
+      class="subtitle-input"
+      id="subtitleInput"
+      placeholder="Add a subtitle or hook…"
+      rows="1"
+    ></textarea>
+
+    <div class="editor-divider"></div>
+
+    <!-- Editor area -->
+    <textarea
+      class="editor-area"
+      id="editorArea"
+      placeholder="Start writing, or type / for commands…"
+    ></textarea>
+
+  </div>
+
+  <!-- ─── AI SIDEBAR ─── -->
+  <aside class="ai-sidebar" id="aiSidebar">
+
+    <div class="ai-sidebar-head">
+      <div class="ai-sidebar-title">
+        <div class="ai-glow-icon">
+          <svg width="16" height="16" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="13" r="5" stroke="white" stroke-width="1.8"/>
+            <path d="M13 2v3M13 21v3M2 13h3M21 13h3M5.6 5.6l2.1 2.1M18.3 18.3l2.1 2.1M5.6 20.4l2.1-2.1M18.3 7.7l2.1-2.1" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="13" cy="13" r="2" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Scribix AI</h3>
+          <span>Writing assistant</span>
+        </div>
+      </div>
+      <div class="ai-status-dot"></div>
+    </div>
+
+    <div class="ai-sidebar-body">
+
+      <!-- AI Result panel (shared) -->
+      <div class="ai-result" id="aiResult">
+        <div class="ai-result-head">
+          <span class="ai-result-label" id="aiResultLabel">AI Output</span>
+          <button class="ai-result-close" id="aiResultClose">✕</button>
+        </div>
+        <div class="ai-typing" id="aiTyping">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="ai-result-body" id="aiResultBody" style="display:none;"></div>
+        <div class="ai-result-footer" id="aiResultFooter" style="display:none;">
+          <button class="ai-result-btn ai-result-btn-primary" id="aiUseBtn">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Use this
+          </button>
+          <button class="ai-result-btn ai-result-btn-ghost" id="aiRetryBtn">↻ Retry</button>
+        </div>
+      </div>
+
+      <!-- Writing tools -->
+      <div class="ai-section-label">✍️ Writing Tools</div>
+
+      <div class="ai-tool" data-tool="title">
+        <div class="ai-tool-icon">💡</div>
+        <div class="ai-tool-content">
+          <strong>Generate Title</strong>
+          <span>Get 5 compelling title options</span>
+        </div>
+        <span class="ai-tool-arrow">›</span>
+      </div>
+
+      <div class="ai-tool" data-tool="continue">
+        <div class="ai-tool-icon">✨</div>
+        <div class="ai-tool-content">
+          <strong>Continue Writing</strong>
+          <span>AI picks up where you left off</span>
+        </div>
+        <span class="ai-tool-arrow">›</span>
+      </div>
+
+      <div class="ai-tool" data-tool="grammar">
+        <div class="ai-tool-icon">🔤</div>
+        <div class="ai-tool-content">
+          <strong>Improve Grammar</strong>
+          <span>Fix errors, polish sentences</span>
+        </div>
+        <span class="ai-tool-arrow">›</span>
+      </div>
+
+      <div class="ai-tool" data-tool="rewrite">
+        <div class="ai-tool-icon">🎯</div>
+        <div class="ai-tool-content">
+          <strong>Rewrite Professionally</strong>
+          <span>Elevate tone and clarity</span>
+        </div>
+        <span class="ai-tool-arrow">›</span>
+      </div>
+
+      <!-- SEO tools -->
+      <div class="ai-section-label">📈 SEO & Discovery</div>
+
+      <div class="ai-tool" data-tool="seo">
+        <div class="ai-tool-icon">🏷️</div>
+        <div class="ai-tool-content">
+          <strong>Generate SEO Tags</strong>
+          <span>Optimise for search engines</span>
+        </div>
+        <span class="ai-tool-arrow">›</span>
+      </div>
+
+      <div class="ai-tool" data-tool="summary">
+        <div class="ai-tool-icon">📋</div>
+        <div class="ai-tool-content">
+          <strong>Write Meta Description</strong>
+          <span>Click-worthy snippet for Google</span>
+        </div>
+        <span class="ai-tool-arrow">›</span>
+      </div>
+
+      <!-- SEO Score panel -->
+      <div class="ai-section-label">📊 SEO Score</div>
+
+      <div class="seo-panel" id="seoPanel">
+        <div class="seo-head" id="seoPanelHead">
+          <div class="seo-head-left">
+            <div class="seo-score">
+              <span class="seo-score-num">78</span>
+            </div>
+            <div>
+              <div class="seo-title-text">Good</div>
+              <div class="seo-sub">4 improvements available</div>
+            </div>
+          </div>
+          <span class="seo-chevron">▾</span>
+        </div>
+        <div class="seo-body">
+          <div class="seo-item">
+            <div class="seo-check ok">✓</div>
+            <div class="seo-item-text">Title length (45 chars)</div>
+            <div class="seo-item-score">+20</div>
+          </div>
+          <div class="seo-item">
+            <div class="seo-check ok">✓</div>
+            <div class="seo-item-text">Has focus keyword in title</div>
+            <div class="seo-item-score">+15</div>
+          </div>
+          <div class="seo-item">
+            <div class="seo-check warn">!</div>
+            <div class="seo-item-text">Add meta description</div>
+            <div class="seo-item-score">–10</div>
+          </div>
+          <div class="seo-item">
+            <div class="seo-check warn">!</div>
+            <div class="seo-item-text">Add alt text to images</div>
+            <div class="seo-item-score">–7</div>
+          </div>
+          <div class="seo-item">
+            <div class="seo-check err">✕</div>
+            <div class="seo-item-text">Article too short (&lt;800 words)</div>
+            <div class="seo-item-score">–15</div>
+          </div>
+          <div class="seo-item">
+            <div class="seo-check ok">✓</div>
+            <div class="seo-item-text">Has at least 2 headings</div>
+            <div class="seo-item-score">+10</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Doc stats -->
+      <div class="ai-section-label">📝 Document</div>
+      <div class="doc-stats">
+        <div class="doc-stat">
+          <strong id="statWords">0</strong>
+          <span>Words</span>
+        </div>
+        <div class="doc-stat">
+          <strong id="statChars">0</strong>
+          <span>Characters</span>
+        </div>
+        <div class="doc-stat">
+          <strong id="statParas">0</strong>
+          <span>Paragraphs</span>
+        </div>
+        <div class="doc-stat">
+          <strong id="statRead">0m</strong>
+          <span>Read time</span>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+</div>
+
+<!-- Mobile sidebar toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle AI sidebar">
+  <svg width="20" height="20" fill="none" stroke="white" stroke-width="2" viewBox="0 0 26 26">
+    <circle cx="13" cy="13" r="5" stroke="white" stroke-width="1.8"/>
+    <path d="M13 2v3M13 21v3M2 13h3M21 13h3" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="13" cy="13" r="2" fill="white"/>
+  </svg>
+</button>
+
+<!-- Write progress bar (scroll-based) -->
+<div class="write-progress" id="writeProgress"></div>
+
+<!-- ══════════════════════════════
+     PUBLISH MODAL
+══════════════════════════════ -->
+<div class="modal-overlay" id="publishModal">
+  <div class="modal">
+    <h2 class="modal-title">Ready to publish? 🚀</h2>
+    <p class="modal-sub">We ran a quick pre-publish check on your article.</p>
+
+    <div class="modal-checklist">
+      <div class="modal-check ok" id="check-title">
+        <span class="modal-check-icon">✅</span>
+        <div class="modal-check-text">
+          <strong>Title looks great</strong>
+          <span>Clear, compelling, and the right length</span>
+        </div>
+      </div>
+      <div class="modal-check ok" id="check-cover">
+        <span class="modal-check-icon">🖼️</span>
+        <div class="modal-check-text">
+          <strong id="coverCheckText">Cover image added</strong>
+          <span id="coverCheckSub">Your article will stand out in feeds</span>
+        </div>
+      </div>
+      <div class="modal-check warn" id="check-words">
+        <span class="modal-check-icon">⚠️</span>
+        <div class="modal-check-text">
+          <strong>Article length</strong>
+          <span id="wordCheckSub">Aim for 800+ words for best reach</span>
+        </div>
+      </div>
+      <div class="modal-check ok" id="check-tags">
+        <span class="modal-check-icon">🏷️</span>
+        <div class="modal-check-text">
+          <strong>Tags added</strong>
+          <span>Helps readers discover your content</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="modal-btn modal-btn-cancel" id="cancelPublish">Cancel</button>
+      <button class="modal-btn modal-btn-publish" id="confirmPublish">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        Publish Now
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════ THEME ══════════ */
+const html = document.documentElement;
+const themeBtn = document.getElementById('themeBtn');
+html.setAttribute('data-theme', localStorage.getItem('scribix-theme') || 'light');
+themeBtn.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('scribix-theme', next);
+});
+
+/* ══════════ TOAST ══════════ */
+let _toastTimer;
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  void t.offsetWidth;
+  t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+/* ══════════ AUTO-RESIZE TEXTAREAS ══════════ */
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+['titleInput','subtitleInput','editorArea'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => autoResize(el));
+  autoResize(el);
+});
+
+/* ══════════ SAVE STATUS ══════════ */
+const saveDot = document.getElementById('saveDot');
+const saveLabel = document.getElementById('saveLabel');
+let saveTimer;
+
+function triggerSave() {
+  saveDot.className = 'save-dot saving';
+  saveLabel.textContent = 'Saving…';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    saveDot.className = 'save-dot saved';
+    saveLabel.textContent = 'Saved';
+    setTimeout(() => {
+      saveDot.className = 'save-dot';
+      saveLabel.textContent = 'Draft saved';
+    }, 2500);
+  }, 900);
+}
+
+['titleInput','subtitleInput','editorArea'].forEach(id => {
+  document.getElementById(id).addEventListener('input', triggerSave);
+});
+
+/* ══════════ WORD COUNT & STATS ══════════ */
+function updateStats() {
+  const text = [
+    document.getElementById('titleInput').value,
+    document.getElementById('subtitleInput').value,
+    document.getElementById('editorArea').value
+  ].join(' ');
+
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const chars = text.length;
+  const body = document.getElementById('editorArea').value;
+  const paras = body.split(/\n\n+/).filter(p => p.trim()).length;
+  const readMins = Math.max(1, Math.ceil(words / 200));
+
+  document.getElementById('wordCountTop').textContent = words + ' words';
+  document.getElementById('statWords').textContent = words;
+  document.getElementById('statChars').textContent = chars;
+  document.getElementById('statParas').textContent = paras;
+  document.getElementById('statRead').textContent = readMins + 'm';
+
+  // progress bar (based on word count, target 800)
+  const pct = Math.min(100, (words / 800) * 100);
+  document.getElementById('writeProgress').style.width = pct + '%';
+}
+
+['titleInput','subtitleInput','editorArea'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateStats);
+});
+updateStats();
+
+/* ══════════ COVER IMAGE ══════════ */
+const coverInput = document.getElementById('coverInput');
+const coverPreview = document.getElementById('coverPreview');
+const coverImg = document.getElementById('coverImg');
+let hasCover = false;
+
+coverInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  coverImg.src = url;
+  coverPreview.style.display = 'block';
+  document.querySelector('.cover-placeholder').style.display = 'none';
+  document.getElementById('coverZone').style.minHeight = '260px';
+  hasCover = true;
+  showToast('📸 Cover image added!', 'success');
+});
+
+/* ══════════ TAGS ══════════ */
+const tagInput = document.getElementById('tagInput');
+const tagsWrap = document.getElementById('tagsWrap');
+let tags = [];
+
+tagInput.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ',') && tagInput.value.trim()) {
+    e.preventDefault();
+    addTag(tagInput.value.trim().replace(/,/g, ''));
+    tagInput.value = '';
+  } else if (e.key === 'Backspace' && !tagInput.value && tags.length) {
+    removeTag(tags[tags.length - 1]);
+  }
+});
+
+function addTag(text) {
+  if (tags.includes(text) || tags.length >= 6) return;
+  tags.push(text);
+  const pill = document.createElement('span');
+  pill.className = 'tag-pill';
+  pill.dataset.tag = text;
+  pill.innerHTML = `${text}<button onclick="removeTag('${text}')">✕</button>`;
+  tagsWrap.insertBefore(pill, tagInput);
+}
+function removeTag(text) {
+  tags = tags.filter(t => t !== text);
+  const pill = tagsWrap.querySelector(`[data-tag="${text}"]`);
+  if (pill) pill.remove();
+}
+window.removeTag = removeTag;
+
+/* ══════════ FORMAT BAR (text selection) ══════════ */
+const formatBar = document.getElementById('formatBar');
+const editorArea = document.getElementById('editorArea');
+
+editorArea.addEventListener('mouseup', () => {
+  const start = editorArea.selectionStart;
+  const end = editorArea.selectionEnd;
+  if (end > start) {
+    formatBar.classList.add('visible');
+  } else {
+    formatBar.classList.remove('visible');
+  }
+});
+
+document.addEventListener('click', e => {
+  if (!formatBar.contains(e.target) && e.target !== editorArea) {
+    formatBar.classList.remove('visible');
+  }
+});
+
+document.querySelectorAll('.fmt-btn').forEach(btn => {
+  btn.addEventListener('mousedown', e => {
+    e.preventDefault();
+    const fmt = btn.dataset.fmt;
+    const start = editorArea.selectionStart;
+    const end = editorArea.selectionEnd;
+    const selected = editorArea.value.substring(start, end);
+    const before = editorArea.value.substring(0, start);
+    const after = editorArea.value.substring(end);
+    const wrapMap = {
+      bold: `**${selected}**`,
+      italic: `_${selected}_`,
+      underline: `__${selected}__`,
+      h1: `# ${selected}`,
+      h2: `## ${selected}`,
+      quote: `> ${selected}`,
+      code: `\`${selected}\``
+    };
+    if (wrapMap[fmt]) {
+      editorArea.value = before + wrapMap[fmt] + after;
+      autoResize(editorArea);
+      updateStats();
+      triggerSave();
+    }
+    formatBar.classList.remove('visible');
+  });
+});
+
+/* ══════════ SLASH COMMANDS ══════════ */
+const slashMenu = document.getElementById('slashMenu');
+let slashStart = -1;
+
+editorArea.addEventListener('keydown', e => {
+  if (e.key === '/') {
+    slashStart = editorArea.selectionStart + 1;
+    setTimeout(() => {
+      const rect = editorArea.getBoundingClientRect();
+      slashMenu.style.left = (rect.left + 80) + 'px';
+      slashMenu.style.top = (rect.top + 120) + 'px';
+      slashMenu.classList.add('open');
+    }, 50);
+  } else if (e.key === 'Escape') {
+    slashMenu.classList.remove('open');
+  }
+});
+
+editorArea.addEventListener('input', () => {
+  if (slashMenu.classList.contains('open')) {
+    const cur = editorArea.selectionStart;
+    if (cur < slashStart) slashMenu.classList.remove('open');
+  }
+});
+
+document.querySelectorAll('.slash-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const insert = item.dataset.insert;
+    const before = editorArea.value.substring(0, slashStart - 1);
+    const after = editorArea.value.substring(editorArea.selectionStart);
+    editorArea.value = before + insert + '\n' + after;
+    autoResize(editorArea);
+    updateStats();
+    triggerSave();
+    slashMenu.classList.remove('open');
+    editorArea.focus();
+  });
+});
+
+document.addEventListener('click', e => {
+  if (!slashMenu.contains(e.target) && e.target !== editorArea) {
+    slashMenu.classList.remove('open');
+  }
+});
+
+/* ══════════ SEO PANEL TOGGLE ══════════ */
+const seoPanel = document.getElementById('seoPanel');
+document.getElementById('seoPanelHead').addEventListener('click', () => {
+  seoPanel.classList.toggle('open');
+});
+
+/* ══════════ MOBILE SIDEBAR TOGGLE ══════════ */
+const aiSidebar = document.getElementById('aiSidebar');
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+  aiSidebar.classList.toggle('open');
+});
+
+/* ══════════ AI TOOLS ══════════ */
+const aiResult = document.getElementById('aiResult');
+const aiTyping = document.getElementById('aiTyping');
+const aiResultBody = document.getElementById('aiResultBody');
+const aiResultFooter = document.getElementById('aiResultFooter');
+const aiResultLabel = document.getElementById('aiResultLabel');
+let currentTool = null;
+
+const toolOutputs = {
+  title: {
+    label: '💡 Title Suggestions',
+    content: `Here are 5 compelling title options:\n\n1. "The Quiet Revolution: How AI is Rewriting the Future of Storytelling"\n\n2. "Beyond the Algorithm: Why Human Voice Will Always Win"\n\n3. "The Content Creator's Survival Guide to the AI Age"\n\n4. "Writing in the Age of Machines: A Manifesto for Human Creativity"\n\n5. "When AI Can Write — Why You Should Write Anyway"`,
+    action: 'Use title #1'
+  },
+  continue: {
+    label: '✨ Continuation',
+    content: `The implications of this shift extend far beyond individual writers. Publishers, platforms, and readers are all being forced to redefine what "quality content" means in an era when the barrier to generation has collapsed entirely.\n\nWhat remains immutable, however, is the hunger for authentic perspective — the kind that only emerges from a life genuinely lived, not from patterns mined from the corpus of human expression...`,
+    action: 'Insert continuation'
+  },
+  grammar: {
+    label: '🔤 Grammar Check',
+    content: `Found 3 suggestions:\n\n• Paragraph 2: "which" → "that" (restrictive clause)\n• Paragraph 4: Remove comma before "and" in compound sentence\n• Paragraph 6: "it's" → "its" (possessive, not contraction)\n\nOverall readability score: 78/100 (Good). Your writing is clear and accessible to a general audience.`,
+    action: 'Apply all fixes'
+  },
+  rewrite: {
+    label: '🎯 Professional Rewrite',
+    content: `The landscape of content creation has undergone a fundamental paradigm shift. What was once the exclusive domain of skilled practitioners now stands at an inflection point — where artificial intelligence has not merely augmented human capability, but has begun to challenge the very notion of authorship itself.\n\nThis transformation demands that we interrogate not just the tools we use, but the irreducible value of the human perspective that animates them.`,
+    action: 'Replace selection'
+  },
+  seo: {
+    label: '🏷️ SEO Tags',
+    content: `Recommended tags for maximum discoverability:\n\nPrimary: "AI writing tools", "content creation 2025"\n\nSecondary: "GPT-5", "artificial intelligence", "digital publishing", "writing technology"\n\nLong-tail: "how AI is changing content creation", "future of writing with AI"`,
+    action: 'Add all tags'
+  },
+  summary: {
+    label: '📋 Meta Description',
+    content: `Suggested meta description (156 chars):\n\n"Discover how GPT-5 is quietly reshaping the rules of content creation — and what it means for writers, publishers, and readers navigating the AI age."`,
+    action: 'Use description'
+  }
+};
+
+document.querySelectorAll('.ai-tool').forEach(tool => {
+  tool.addEventListener('click', async function() {
+    const toolName = this.dataset.tool;
+    currentTool = toolName;
+    const data = toolOutputs[toolName];
+
+    // show result panel
+    aiResult.classList.add('open');
+    aiResultLabel.textContent = data.label;
+    aiTyping.classList.add('show');
+    aiResultBody.style.display = 'none';
+    aiResultFooter.style.display = 'none';
+
+    this.classList.add('loading');
+
+    await new Promise(r => setTimeout(r, 1400 + Math.random() * 600));
+
+    aiTyping.classList.remove('show');
+    aiResultBody.style.display = 'block';
+    aiResultBody.textContent = '';
+    aiResultFooter.style.display = 'flex';
+    document.getElementById('aiUseBtn').textContent = '→ ' + data.action;
+    this.classList.remove('loading');
+
+    // typewriter effect
+    const text = data.content;
+    let i = 0;
+    const interval = setInterval(() => {
+      aiResultBody.textContent += text[i];
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, 12);
+
+    // scroll sidebar to result
+    aiResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+});
+
+document.getElementById('aiResultClose').addEventListener('click', () => {
+  aiResult.classList.remove('open');
+});
+
+document.getElementById('aiUseBtn').addEventListener('click', () => {
+  const data = toolOutputs[currentTool];
+  if (!data) return;
+
+  if (currentTool === 'title') {
+    document.getElementById('titleInput').value = 'The Quiet Revolution: How AI is Rewriting the Future of Storytelling';
+    autoResize(document.getElementById('titleInput'));
+    showToast('✅ Title applied!', 'success');
+  } else if (currentTool === 'seo') {
+    const newTags = ['AI writing tools', 'content creation 2025', 'GPT-5'];
+    newTags.forEach(t => { if (!tags.includes(t)) addTag(t); });
+    showToast('🏷️ SEO tags added!', 'success');
+  } else if (currentTool === 'continue') {
+    const ea = document.getElementById('editorArea');
+    ea.value += '\n\n' + data.content;
+    autoResize(ea);
+    updateStats();
+    triggerSave();
+    showToast('✨ Continuation inserted!', 'success');
+  } else {
+    showToast('✅ Applied successfully!', 'success');
+  }
+  aiResult.classList.remove('open');
+});
+
+document.getElementById('aiRetryBtn').addEventListener('click', async () => {
+  if (!currentTool) return;
+  aiTyping.classList.add('show');
+  aiResultBody.style.display = 'none';
+  aiResultFooter.style.display = 'none';
+  await new Promise(r => setTimeout(r, 1200));
+  aiTyping.classList.remove('show');
+  aiResultBody.style.display = 'block';
+  aiResultFooter.style.display = 'flex';
+  aiResultBody.textContent = toolOutputs[currentTool].content + '\n\n(Regenerated)';
+});
+
+/* ══════════ SAVE DRAFT BUTTON ══════════ */
+document.getElementById('saveDraftBtn').addEventListener('click', () => {
+  triggerSave();
+  showToast('💾 Draft saved!', 'success');
+});
+
+/* ══════════ PUBLISH FLOW ══════════ */
+const publishModal = document.getElementById('publishModal');
+
+document.getElementById('publishBtn').addEventListener('click', () => {
+  // Update checks
+  const words = parseInt(document.getElementById('statWords').textContent);
+  const wordCheck = document.getElementById('check-words');
+  const wordSub = document.getElementById('wordCheckSub');
+  if (words >= 800) {
+    wordCheck.className = 'modal-check ok';
+    wordCheck.querySelector('.modal-check-icon').textContent = '✅';
+    wordSub.textContent = `${words} words — great length!`;
+  } else {
+    wordCheck.className = 'modal-check warn';
+    wordCheck.querySelector('.modal-check-icon').textContent = '⚠️';
+    wordSub.textContent = `${words} words — aim for 800+ for best reach`;
+  }
+  const coverCheck = document.getElementById('check-cover');
+  if (!hasCover) {
+    coverCheck.className = 'modal-check warn';
+    coverCheck.querySelector('.modal-check-icon').textContent = '⚠️';
+    document.getElementById('coverCheckText').textContent = 'No cover image';
+    document.getElementById('coverCheckSub').textContent = 'Adding one increases clicks by 2×';
+  }
+  const tagCheck = document.getElementById('check-tags');
+  if (tags.length === 0) {
+    tagCheck.className = 'modal-check warn';
+    tagCheck.querySelector('.modal-check-icon').textContent = '⚠️';
+  }
+  const title = document.getElementById('titleInput').value.trim();
+  const titleCheck = document.getElementById('check-title');
+  if (!title) {
+    titleCheck.className = 'modal-check warn';
+    titleCheck.querySelector('.modal-check-icon').textContent = '⚠️';
+    titleCheck.querySelector('strong').textContent = 'No title added';
+  }
+  publishModal.classList.add('open');
+});
+
+document.getElementById('cancelPublish').addEventListener('click', () => {
+  publishModal.classList.remove('open');
+});
+
+document.getElementById('confirmPublish').addEventListener('click', async () => {
+  const btn = document.getElementById('confirmPublish');
+  btn.textContent = 'Publishing…';
+  btn.style.opacity = '.7';
+  btn.disabled = true;
+  await new Promise(r => setTimeout(r, 2000));
+  publishModal.classList.remove('open');
+  showToast('🎉 Article published successfully!', 'success');
+  btn.innerHTML = '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg> Publish Now';
+  btn.style.opacity = '';
+  btn.disabled = false;
+});
+
+publishModal.addEventListener('click', e => {
+  if (e.target === publishModal) publishModal.classList.remove('open');
+});
+
+/* ══════════ SCROLL PROGRESS BAR ══════════ */
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  const pct = total > 0 ? (scrolled / total) * 100 : 0;
+  // combine with word-count-based progress
+  const wordPct = parseFloat(document.getElementById('writeProgress').style.width) || 0;
+  document.getElementById('writeProgress').style.width = Math.max(wordPct, pct * 0.3) + '%';
+}, { passive: true });
+
+/* ══════════ KEYBOARD SHORTCUTS ══════════ */
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    triggerSave();
+    showToast('💾 Saved!', 'success');
+  }
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'P') {
+    e.preventDefault();
+    document.getElementById('publishBtn').click();
+  }
+});
+
+/* Hint on first focus */
+const editorAreaEl = document.getElementById('editorArea');
+let hintShown = false;
+editorAreaEl.addEventListener('focus', () => {
+  if (!hintShown && !editorAreaEl.value) {
+    hintShown = true;
+    showToast('Tip: Type / for blocks, ⌘S to save', 'info');
+  }
+});
+</script>
+</body>
+</html>

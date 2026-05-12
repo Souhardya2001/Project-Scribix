@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Search Results — Scribix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ══════════════════════════════════════════════════
+   SCRIBIX — Search Results · Refined Typographic
+   Aesthetic: editorial newspaper meets modern SaaS
+══════════════════════════════════════════════════ */
+
+:root {
+  --bg:              #fafaf8;
+  --bg-2:            #f2f1ee;
+  --bg-3:            #e8e6e1;
+  --surface:         #ffffff;
+  --surface-2:       #f7f6f3;
+  --border:          #e2dfd8;
+  --border-2:        #d0cdc6;
+  --border-accent:   #a78bfa;
+  --ink:             #111110;
+  --ink-2:           #3c3b38;
+  --ink-3:           #6b6962;
+  --ink-4:           #9e9b94;
+  --ink-5:           #c4c1ba;
+  --accent-v:        #7c3aed;
+  --accent-v-light:  #a78bfa;
+  --accent-b:        #0369a1;
+  --accent-b-light:  #38bdf8;
+  --accent-amber:    #d97706;
+  --gradient:        linear-gradient(135deg, #7c3aed 0%, #0ea5e9 100%);
+  --gradient-text:   linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%);
+  --gradient-soft:   linear-gradient(135deg, rgba(124,58,237,.07) 0%, rgba(14,165,233,.05) 100%);
+  --glow:            0 0 40px rgba(124,58,237,.18);
+  --shadow-xs:       0 1px 2px rgba(17,17,16,.05);
+  --shadow-sm:       0 2px 8px rgba(17,17,16,.07), 0 1px 2px rgba(17,17,16,.04);
+  --shadow-md:       0 8px 24px rgba(17,17,16,.08), 0 2px 8px rgba(17,17,16,.04);
+  --shadow-lg:       0 20px 60px rgba(17,17,16,.1), 0 8px 24px rgba(17,17,16,.05);
+  --r-sm:            8px;
+  --r-md:            14px;
+  --r-lg:            20px;
+  --r-xl:            28px;
+  --font-display:    'Instrument Serif', Georgia, serif;
+  --font-sans:       'Geist', system-ui, sans-serif;
+  --font-mono:       'Geist Mono', monospace;
+  --ease:            cubic-bezier(.4, 0, .2, 1);
+  --spring:          cubic-bezier(.34, 1.56, .64, 1);
+  --dur:             220ms;
+}
+
+[data-theme="dark"] {
+  --bg:              #0c0c0b;
+  --bg-2:            #131312;
+  --bg-3:            #1c1c1a;
+  --surface:         #181816;
+  --surface-2:       #1f1f1d;
+  --border:          #2a2a27;
+  --border-2:        #363633;
+  --border-accent:   #7c3aed;
+  --ink:             #f0ede8;
+  --ink-2:           #ccc9c2;
+  --ink-3:           #8f8c85;
+  --ink-4:           #5e5c57;
+  --ink-5:           #3a3835;
+  --shadow-xs:       0 1px 2px rgba(0,0,0,.4);
+  --shadow-sm:       0 2px 8px rgba(0,0,0,.4);
+  --shadow-md:       0 8px 24px rgba(0,0,0,.5);
+  --shadow-lg:       0 20px 60px rgba(0,0,0,.6);
+  --gradient-soft:   linear-gradient(135deg, rgba(124,58,237,.12) 0%, rgba(14,165,233,.08) 100%);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; object-fit: cover; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: var(--font-sans); border: none; background: none; }
+
+/* ─── Utilities ─── */
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ══════════════════════════════
+   NAVBAR
+══════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 58px;
+  background: rgba(250,250,248,.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+[data-theme="dark"] .nav { background: rgba(12,12,11,.88); }
+.nav.scrolled { box-shadow: var(--shadow-sm); }
+
+.nav-inner {
+  max-width: 1260px; margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
+  display: flex; align-items: center; gap: 16px;
+}
+
+/* Logo */
+.logo {
+  display: flex; align-items: center; gap: 9px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  border-radius: 9px;
+  background: var(--gradient-soft);
+  border: 1px solid var(--border-accent);
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--dur) var(--ease);
+}
+.logo-mark:hover { transform: scale(1.06); box-shadow: var(--glow); }
+.logo-name {
+  font-size: 18px; font-weight: 800;
+  letter-spacing: -0.4px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* Inline search bar in nav */
+.nav-search-wrap {
+  flex: 1;
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+}
+.nav-search-inner {
+  display: flex;
+  align-items: center;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  padding: 0 16px;
+  gap: 10px;
+  height: 38px;
+  transition: all var(--dur) var(--ease);
+}
+.nav-search-inner:focus-within {
+  border-color: var(--border-accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(124,58,237,.1);
+}
+.nav-search-icon { color: var(--ink-4); flex-shrink: 0; }
+.nav-search-input {
+  flex: 1;
+  border: none; outline: none;
+  font-size: 13.5px; font-family: var(--font-sans);
+  background: transparent;
+  color: var(--ink);
+}
+.nav-search-input::placeholder { color: var(--ink-4); }
+.nav-search-clear {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--border-2);
+  color: var(--ink-3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+  transition: all var(--dur);
+  flex-shrink: 0;
+}
+.nav-search-clear:hover { background: var(--accent-v); color: #fff; }
+
+.nav-right {
+  display: flex; align-items: center; gap: 10px;
+  margin-left: auto; flex-shrink: 0;
+}
+.nav-icon-btn {
+  width: 34px; height: 34px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-3);
+  transition: all var(--dur) var(--ease);
+  font-size: 15px;
+}
+.nav-icon-btn:hover { border-color: var(--border-accent); color: var(--accent-v); }
+[data-theme="dark"] .sun-i { display: none; }
+[data-theme="light"] .moon-i { display: none; }
+.nav-cta {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 18px;
+  border-radius: 50px;
+  background: var(--gradient);
+  color: #fff;
+  font-size: 13px; font-weight: 600;
+  box-shadow: 0 3px 14px rgba(124,58,237,.32);
+  transition: all var(--dur) var(--ease);
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,.42); }
+.nav-av {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--border-accent);
+}
+.nav-av img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ══════════════════════════════
+   HERO SEARCH SECTION
+══════════════════════════════ */
+.search-hero {
+  padding: 100px 20px 0;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.search-hero-top {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 28px;
+}
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink-3);
+  font-size: 13px; font-weight: 500;
+  transition: all var(--dur) var(--ease);
+}
+.back-btn:hover { border-color: var(--border-accent); color: var(--accent-v); background: var(--gradient-soft); }
+.search-crumb {
+  font-size: 13px; color: var(--ink-4);
+  display: flex; align-items: center; gap: 6px;
+}
+.search-crumb span { color: var(--border-2); }
+.search-crumb em { font-style: normal; font-weight: 600; color: var(--ink-2); }
+
+/* Big search bar */
+.search-bar-wrap {
+  position: relative;
+  margin-bottom: 36px;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 0 8px 0 24px;
+  gap: 12px;
+  height: 62px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--dur) var(--ease);
+}
+.search-bar:focus-within {
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 4px rgba(124,58,237,.1), var(--shadow-md);
+}
+.search-bar-icon { color: var(--ink-4); flex-shrink: 0; }
+.search-bar-input {
+  flex: 1;
+  border: none; outline: none;
+  font-size: 17px; font-family: var(--font-sans);
+  background: transparent;
+  color: var(--ink);
+  font-weight: 400;
+}
+.search-bar-input::placeholder { color: var(--ink-5); }
+.search-bar-kbd {
+  display: flex; align-items: center; gap: 4px;
+  color: var(--ink-4); font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  font-family: var(--font-mono);
+}
+.search-bar-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 10px 22px;
+  border-radius: 12px;
+  background: var(--gradient);
+  color: #fff;
+  font-size: 14px; font-weight: 600;
+  box-shadow: 0 3px 12px rgba(124,58,237,.3);
+  transition: all var(--dur) var(--ease);
+  flex-shrink: 0;
+}
+.search-bar-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,.42); }
+
+/* Suggestions row */
+.search-suggestions {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.suggest-label { font-size: 12.5px; color: var(--ink-4); flex-shrink: 0; }
+.suggest-chip {
+  padding: 5px 13px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  font-size: 12.5px; font-weight: 500;
+  color: var(--ink-3);
+  transition: all var(--dur) var(--ease);
+  cursor: pointer;
+}
+.suggest-chip:hover {
+  border-color: var(--border-accent);
+  color: var(--accent-v);
+  background: var(--gradient-soft);
+}
+
+/* ══════════════════════════════
+   RESULTS META ROW
+══════════════════════════════ */
+.results-meta {
+  max-width: 1260px; margin: 0 auto;
+  padding: 0 20px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 14px;
+}
+.results-count {
+  display: flex; align-items: baseline; gap: 8px;
+}
+.results-count strong {
+  font-size: 22px; font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--ink);
+}
+.results-count span { font-size: 14px; color: var(--ink-3); }
+.results-count em {
+  font-style: normal; font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.result-time {
+  font-size: 12.5px; color: var(--ink-4);
+  padding: 3px 10px; border-radius: 50px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  font-family: var(--font-mono);
+}
+
+/* Filter chips */
+.filter-strip {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.filter-chip {
+  padding: 6px 14px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 13px; font-weight: 500;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  display: flex; align-items: center; gap: 6px;
+}
+.filter-chip:hover { border-color: var(--border-accent); color: var(--accent-v); }
+.filter-chip.active {
+  background: var(--gradient);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 3px 10px rgba(124,58,237,.28);
+}
+.filter-chip .chip-count {
+  font-size: 11px; font-family: var(--font-mono);
+  padding: 1px 6px; border-radius: 50px;
+  background: rgba(255,255,255,.2);
+}
+.filter-chip:not(.active) .chip-count { background: var(--bg-2); color: var(--ink-4); }
+
+/* Sort select */
+.sort-wrap {
+  display: flex; align-items: center; gap: 8px;
+}
+.sort-label { font-size: 13px; color: var(--ink-4); }
+.sort-select {
+  padding: 6px 28px 6px 12px;
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 13px; font-family: var(--font-sans);
+  font-weight: 500;
+  outline: none; cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%239e9b94' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+  transition: border-color var(--dur);
+}
+.sort-select:focus { border-color: var(--border-accent); }
+[data-theme="dark"] .sort-select { background-color: var(--surface); }
+
+/* ══════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════ */
+.page-layout {
+  max-width: 1260px; margin: 0 auto;
+  padding: 0 20px 80px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ══════════════════════════════
+   RESULTS COLUMN
+══════════════════════════════ */
+.results-col {}
+
+/* AI answer card */
+.ai-answer {
+  background: var(--surface);
+  border: 1.5px solid var(--border-accent);
+  border-radius: var(--r-lg);
+  padding: 24px 26px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp .4s var(--ease) both;
+}
+.ai-answer::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--gradient-soft);
+  pointer-events: none;
+}
+.ai-answer-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.ai-badge {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 13px;
+  border-radius: 50px;
+  background: var(--gradient);
+  color: #fff;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: .3px;
+}
+.ai-badge-dot {
+  width: 6px; height: 6px;
+  background: rgba(255,255,255,.7);
+  border-radius: 50%;
+  animation: blink 1.8s ease infinite;
+}
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+.ai-answer-label {
+  font-size: 12px; color: var(--ink-4); font-family: var(--font-mono);
+}
+.ai-answer-text {
+  font-size: 14.5px; line-height: 1.72;
+  color: var(--ink-2);
+  font-family: var(--font-sans);
+  margin-bottom: 14px;
+  position: relative;
+}
+.ai-answer-text strong { color: var(--ink); }
+.ai-sources {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.ai-source-label { font-size: 12px; color: var(--ink-4); }
+.ai-source-pill {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  font-size: 12px; font-weight: 500;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: all var(--dur);
+}
+.ai-source-pill:hover { border-color: var(--border-accent); color: var(--accent-v); }
+.ai-source-num {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--gradient);
+  color: #fff; font-size: 9px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Results list */
+.results-list {
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+/* ─── Article card ─── */
+.result-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 22px 24px;
+  display: flex; gap: 18px;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  animation: fadeUp .4s var(--ease) both;
+}
+.result-card::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--gradient);
+  border-radius: 0 2px 2px 0;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .25s var(--spring);
+}
+.result-card:hover {
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.result-card:hover::after { transform: scaleY(1); }
+
+/* stagger delays */
+.result-card:nth-child(1) { animation-delay: .05s; }
+.result-card:nth-child(2) { animation-delay: .10s; }
+.result-card:nth-child(3) { animation-delay: .15s; }
+.result-card:nth-child(4) { animation-delay: .20s; }
+.result-card:nth-child(5) { animation-delay: .25s; }
+.result-card:nth-child(6) { animation-delay: .30s; }
+.result-card:nth-child(7) { animation-delay: .35s; }
+.result-card:nth-child(8) { animation-delay: .40s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Card thumbnail */
+.card-thumb {
+  width: 108px; height: 86px;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.card-thumb img {
+  width: 100%; height: 100%;
+  transition: transform .5s var(--ease);
+}
+.result-card:hover .card-thumb img { transform: scale(1.06); }
+.card-thumb-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top right, rgba(124,58,237,.3), transparent);
+  opacity: 0;
+  transition: opacity var(--dur);
+}
+.result-card:hover .card-thumb-overlay { opacity: 1; }
+
+/* Card body */
+.card-body { flex: 1; min-width: 0; }
+.card-top {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px; flex-wrap: wrap;
+}
+.card-cat {
+  font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--accent-v);
+  padding: 3px 9px;
+  border-radius: 50px;
+  background: rgba(124,58,237,.08);
+  border: 1px solid rgba(124,58,237,.18);
+}
+.card-relevance {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 10.5px; color: var(--ink-4);
+  font-family: var(--font-mono);
+}
+.relevance-bar {
+  width: 40px; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.relevance-fill {
+  height: 100%;
+  background: var(--gradient);
+  border-radius: 2px;
+  transition: width .6s var(--ease);
+}
+.card-featured {
+  margin-left: auto;
+  font-size: 10px; font-weight: 700;
+  padding: 2px 9px; border-radius: 50px;
+  background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(251,191,36,.08));
+  border: 1px solid rgba(245,158,11,.3);
+  color: var(--accent-amber);
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 7px;
+  transition: color var(--dur);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  letter-spacing: -.1px;
+}
+.result-card:hover .card-title { color: var(--accent-v); }
+
+/* highlight matching query */
+.highlight {
+  background: linear-gradient(135deg, rgba(124,58,237,.15), rgba(14,165,233,.1));
+  border-radius: 3px;
+  padding: 0 3px;
+  color: var(--accent-v);
+  font-style: italic;
+}
+
+.card-excerpt {
+  font-size: 13.5px; line-height: 1.65;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Author row */
+.card-author {
+  display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap;
+}
+.author-pill {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 12px 5px 5px;
+  border-radius: 50px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  transition: all var(--dur);
+}
+.author-pill:hover { border-color: var(--border-accent); background: var(--gradient-soft); }
+.author-av {
+  width: 24px; height: 24px;
+  border-radius: 50%; overflow: hidden;
+  flex-shrink: 0;
+  border: 1.5px solid var(--border-accent);
+}
+.author-av img { width: 100%; height: 100%; object-fit: cover; }
+.author-name-text {
+  font-size: 12.5px; font-weight: 600;
+  color: var(--ink-2);
+}
+.author-badge {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--gradient);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: #fff; font-weight: 800;
+}
+.card-meta-dots {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12.5px; color: var(--ink-4);
+}
+.meta-sep { color: var(--border-2); }
+
+/* Card footer actions */
+.card-actions {
+  position: absolute; top: 18px; right: 18px;
+  display: flex; gap: 6px;
+  opacity: 0;
+  transition: opacity var(--dur);
+}
+.result-card:hover .card-actions { opacity: 1; }
+.card-action-btn {
+  width: 30px; height: 30px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-4);
+  font-size: 13px;
+  transition: all var(--dur);
+}
+.card-action-btn:hover { border-color: var(--border-accent); color: var(--accent-v); background: var(--gradient-soft); }
+.card-action-btn.saved { background: var(--gradient-soft); border-color: var(--border-accent); color: var(--accent-v); }
+
+/* Reactions row (on card) */
+.card-reactions {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.reaction-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--ink-4);
+  font-weight: 500;
+}
+
+/* No results */
+.no-results {
+  padding: 64px 20px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  display: none;
+}
+.no-results-icon {
+  width: 72px; height: 72px;
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+}
+.no-results h3 { font-family: var(--font-display); font-size: 22px; color: var(--ink); }
+.no-results p { font-size: 14px; color: var(--ink-4); max-width: 300px; line-height: 1.65; }
+
+/* Load more */
+.load-more-wrap { text-align: center; margin-top: 28px; }
+.load-more-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 14px; font-weight: 600;
+  transition: all var(--dur) var(--ease);
+  box-shadow: var(--shadow-xs);
+}
+.load-more-btn:hover {
+  border-color: var(--border-accent);
+  color: var(--accent-v);
+  background: var(--gradient-soft);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+/* ══════════════════════════════
+   SIDEBAR
+══════════════════════════════ */
+.sidebar { position: sticky; top: 76px; }
+
+.side-widget {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: 16px;
+  transition: border-color var(--dur);
+}
+.side-widget:hover { border-color: var(--border-accent); }
+.widget-head {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.widget-title { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -.1px; }
+.widget-link { font-size: 12px; font-weight: 500; color: var(--accent-v); }
+.widget-link:hover { opacity: .75; }
+.widget-body { padding: 14px 18px 18px; }
+
+/* Author suggestion card */
+.author-suggest {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  transition: all var(--dur);
+}
+.author-suggest:last-child { border-bottom: none; padding-bottom: 0; }
+.author-suggest:hover .as-name { color: var(--accent-v); }
+.as-av {
+  width: 38px; height: 38px;
+  border-radius: 50%; overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--border-accent);
+}
+.as-av img { width: 100%; height: 100%; object-fit: cover; }
+.as-info { flex: 1; min-width: 0; }
+.as-name { font-size: 13.5px; font-weight: 600; color: var(--ink); transition: color var(--dur); }
+.as-handle { font-size: 11.5px; color: var(--accent-v); font-family: var(--font-mono); }
+.as-follow {
+  padding: 5px 13px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border-accent);
+  color: var(--accent-v);
+  font-size: 12px; font-weight: 600;
+  transition: all var(--dur);
+  flex-shrink: 0;
+}
+.as-follow:hover { background: var(--gradient); color: #fff; border-color: transparent; }
+.as-follow.following { background: var(--gradient); color: #fff; border-color: transparent; }
+
+/* Trending tags */
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 7px; }
+.tag-pill {
+  padding: 6px 13px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  font-size: 12.5px; font-weight: 500;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: all var(--dur);
+}
+.tag-pill:hover { border-color: var(--border-accent); color: var(--accent-v); background: var(--gradient-soft); }
+.tag-pill.active { background: var(--gradient); color: #fff; border-color: transparent; }
+
+/* Search history */
+.history-list { display: flex; flex-direction: column; gap: 2px; }
+.history-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: all var(--dur);
+  color: var(--ink-3);
+  font-size: 13px;
+}
+.history-item:hover { background: var(--bg-2); color: var(--ink); }
+.history-icon { font-size: 13px; flex-shrink: 0; }
+.history-del {
+  margin-left: auto;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--ink-4);
+  opacity: 0;
+  transition: all var(--dur);
+}
+.history-item:hover .history-del { opacity: 1; background: var(--bg-3); }
+
+/* Related searches */
+.related-list { display: flex; flex-direction: column; gap: 4px; }
+.related-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: all var(--dur);
+  font-size: 13px; font-weight: 500;
+  color: var(--ink-2);
+}
+.related-item:hover { background: var(--gradient-soft); color: var(--accent-v); }
+.related-icon { color: var(--ink-4); flex-shrink: 0; }
+.related-item:hover .related-icon { color: var(--accent-v); }
+
+/* ══════════════════════════════
+   TOAST
+══════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 11px 22px;
+  border-radius: 50px;
+  font-size: 13.5px; font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: 9px;
+  transition: transform .32s var(--spring), opacity .22s var(--ease);
+  opacity: 0;
+  z-index: 9999;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 1080px) {
+  .page-layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .side-widget { max-width: 640px; }
+}
+@media (max-width: 720px) {
+  .nav-search-wrap { display: none; }
+  .search-bar { height: 52px; }
+  .search-bar-input { font-size: 15px; }
+  .search-bar-kbd { display: none; }
+  .card-thumb { width: 78px; height: 68px; }
+  .results-meta { padding: 0 16px 16px; }
+  .page-layout { padding: 0 16px 60px; }
+  .search-hero { padding: 88px 16px 0; }
+  .filter-strip { gap: 5px; }
+  .filter-chip { padding: 5px 10px; font-size: 12px; }
+}
+@media (max-width: 480px) {
+  .card-thumb { display: none; }
+  .search-bar-btn span { display: none; }
+  .search-bar-btn { padding: 10px 14px; }
+  .nav-cta span { display: none; }
+  .nav-cta { padding: 8px 12px; }
+  .results-count strong { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════
+     NAVBAR
+══════════════════════════ -->
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">
+        <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+          <defs>
+            <linearGradient id="lg" x1="0" y1="0" x2="28" y2="28">
+              <stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/>
+            </linearGradient>
+          </defs>
+          <path d="M4 6C4 4.9 4.9 4 6 4h10l8 8v10c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6z" fill="url(#lg)" opacity=".25"/>
+          <path d="M14 4l8 8h-6a2 2 0 01-2-2V4z" fill="url(#lg)" opacity=".6"/>
+          <path d="M8 13h12M8 17h8" stroke="url(#lg)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="logo-name">Scribix</span>
+    </a>
+
+    <!-- Inline mini search -->
+    <div class="nav-search-wrap">
+      <div class="nav-search-inner">
+        <svg class="nav-search-icon" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input class="nav-search-input" id="navSearchInput" type="text" placeholder="Refine your search…" value="GPT-5 content creation"/>
+        <button class="nav-search-clear" id="navSearchClear">✕</button>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <button class="nav-icon-btn" id="themeToggle" aria-label="Toggle theme">
+        <span class="sun-i">☀️</span>
+        <span class="moon-i">🌙</span>
+      </button>
+      <a href="scribix-write.html" class="nav-cta">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+        <span>Write</span>
+      </a>
+      <div class="nav-av"><img src="https://i.pravatar.cc/64?img=33" alt="You"/></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════
+     HERO SEARCH
+══════════════════════════ -->
+<div class="search-hero">
+
+  <div class="search-hero-top">
+    <a href="index.html" class="back-btn">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back
+    </a>
+    <div class="search-crumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      Search
+      <span>›</span>
+      <em id="crumbQuery">GPT-5 content creation</em>
+    </div>
+  </div>
+
+  <!-- Big search bar -->
+  <div class="search-bar-wrap">
+    <div class="search-bar">
+      <svg class="search-bar-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input
+        type="text"
+        class="search-bar-input"
+        id="mainSearchInput"
+        value="GPT-5 content creation"
+        placeholder="Search articles, authors, topics…"
+        autocomplete="off"
+      />
+      <div class="search-bar-kbd">
+        <kbd>↵</kbd> Search
+      </div>
+      <button class="search-bar-btn" id="searchBtn">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span>Search</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Suggestions -->
+  <div class="search-suggestions">
+    <span class="suggest-label">Try also:</span>
+    <button class="suggest-chip" data-query="AI writing tools 2025">AI writing tools</button>
+    <button class="suggest-chip" data-query="GPT-5 vs Claude">GPT-5 vs Claude</button>
+    <button class="suggest-chip" data-query="future of content creation">Future of content</button>
+    <button class="suggest-chip" data-query="AI impact on journalism">AI & journalism</button>
+    <button class="suggest-chip" data-query="machine learning writers">ML for writers</button>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════
+     RESULTS META + FILTERS
+══════════════════════════ -->
+<div class="results-meta">
+  <div class="results-count">
+    <strong id="resultCount">2,847</strong>
+    <span>results for <em id="metaQuery">"GPT-5 content creation"</em></span>
+    <span class="result-time">0.38s</span>
+  </div>
+
+  <div class="sort-wrap">
+    <span class="sort-label">Sort:</span>
+    <select class="sort-select" id="sortSelect">
+      <option>Most relevant</option>
+      <option>Most recent</option>
+      <option>Most read</option>
+      <option>Most liked</option>
+    </select>
+  </div>
+</div>
+
+<div class="results-meta" style="padding-top:0;">
+  <div class="filter-strip" id="filterStrip">
+    <button class="filter-chip active" data-filter="all">
+      All <span class="chip-count">2.8K</span>
+    </button>
+    <button class="filter-chip" data-filter="articles">
+      📄 Articles <span class="chip-count">1.9K</span>
+    </button>
+    <button class="filter-chip" data-filter="authors">
+      👤 Authors <span class="chip-count">312</span>
+    </button>
+    <button class="filter-chip" data-filter="topics">
+      🏷 Topics <span class="chip-count">84</span>
+    </button>
+    <button class="filter-chip" data-filter="recent">
+      🕐 Past week
+    </button>
+    <button class="filter-chip" data-filter="long">
+      📖 Long reads
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+     MAIN LAYOUT
+══════════════════════════ -->
+<div class="page-layout">
+
+  <!-- ─── RESULTS COLUMN ─── -->
+  <main class="results-col">
+
+    <!-- AI answer snippet -->
+    <div class="ai-answer" id="aiAnswer">
+      <div class="ai-answer-head">
+        <div class="ai-badge">
+          <span class="ai-badge-dot"></span>
+          Scribix AI
+        </div>
+        <span class="ai-answer-label">Smart answer · based on top results</span>
+      </div>
+      <div class="ai-answer-text">
+        <strong>GPT-5</strong> represents a significant leap in AI writing capability, with benchmark scores surpassing the <strong>90th percentile of human writers</strong> on clarity and structure. For content creators, this signals the emergence of a two-tier economy — where <strong>authentic voice and expertise</strong> become the primary differentiators. Publishers like The New York Times are investing in AI-detection infrastructure, while platforms like Scribix are pioneering verified-human content badges.
+      </div>
+      <div class="ai-sources">
+        <span class="ai-source-label">From:</span>
+        <button class="ai-source-pill"><span class="ai-source-num">1</span> Aria Chen</button>
+        <button class="ai-source-pill"><span class="ai-source-num">2</span> Marcus Liu</button>
+        <button class="ai-source-pill"><span class="ai-source-num">3</span> The Verge</button>
+      </div>
+    </div>
+
+    <!-- Results list -->
+    <div class="results-list" id="resultsList">
+
+      <!-- Card 1 -->
+      <article class="result-card" onclick="openArticle(this)">
+        <div class="card-thumb">
+          <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=400&q=80" alt=""/>
+          <div class="card-thumb-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-cat">AI & Technology</span>
+            <div class="card-relevance">
+              <div class="relevance-bar"><div class="relevance-fill" style="width:96%"></div></div>
+              96%
+            </div>
+            <span class="card-featured">⭐ Featured</span>
+          </div>
+          <h2 class="card-title">How <span class="highlight">GPT-5</span> is Quietly Rewriting the Rules of <span class="highlight">Content Creation</span></h2>
+          <p class="card-excerpt">Large language models have crossed a threshold. Here's what it means for creators, publishers, and readers in 2025 and beyond — and why the stakes have never been higher.</p>
+          <div class="card-author">
+            <div class="author-pill">
+              <div class="author-av"><img src="https://i.pravatar.cc/48?img=1" alt="Aria Chen"/></div>
+              <span class="author-name-text">Aria Chen</span>
+              <span class="author-badge">✓</span>
+            </div>
+            <div class="card-meta-dots">
+              <span>Apr 18, 2025</span>
+              <span class="meta-sep">·</span>
+              <span>8 min read</span>
+              <span class="meta-sep">·</span>
+              <span>24.1K views</span>
+            </div>
+          </div>
+          <div class="card-reactions">
+            <span class="reaction-item">❤️ 4.2K</span>
+            <span class="reaction-item">💬 312</span>
+            <span class="reaction-item">🔖 1.8K saved</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="card-action-btn" title="Save" onclick="toggleSave(event,this)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          </button>
+          <button class="card-action-btn" title="Share" onclick="shareArticle(event)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="result-card" onclick="openArticle(this)">
+        <div class="card-thumb">
+          <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&q=80" alt=""/>
+          <div class="card-thumb-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-cat">AI Research</span>
+            <div class="card-relevance">
+              <div class="relevance-bar"><div class="relevance-fill" style="width:91%"></div></div>
+              91%
+            </div>
+          </div>
+          <h2 class="card-title">The <span class="highlight">Content</span> Creator's Survival Guide to the <span class="highlight">GPT-5</span> Age</h2>
+          <p class="card-excerpt">After testing GPT-5 across 200 different writing tasks, I have a clear picture of what AI can — and cannot — replace. The findings are more nuanced than either the optimists or the doomsayers suggest.</p>
+          <div class="card-author">
+            <div class="author-pill">
+              <div class="author-av"><img src="https://i.pravatar.cc/48?img=3" alt="Marcus Liu"/></div>
+              <span class="author-name-text">Marcus Liu</span>
+              <span class="author-badge">✓</span>
+            </div>
+            <div class="card-meta-dots">
+              <span>Apr 15, 2025</span>
+              <span class="meta-sep">·</span>
+              <span>12 min read</span>
+              <span class="meta-sep">·</span>
+              <span>18.4K views</span>
+            </div>
+          </div>
+          <div class="card-reactions">
+            <span class="reaction-item">❤️ 3.1K</span>
+            <span class="reaction-item">💬 247</span>
+            <span class="reaction-item">🔖 2.2K saved</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="card-action-btn" title="Save" onclick="toggleSave(event,this)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          </button>
+          <button class="card-action-btn" title="Share" onclick="shareArticle(event)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="result-card" onclick="openArticle(this)">
+        <div class="card-thumb">
+          <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&q=80" alt=""/>
+          <div class="card-thumb-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-cat">Publishing</span>
+            <div class="card-relevance">
+              <div class="relevance-bar"><div class="relevance-fill" style="width:87%"></div></div>
+              87%
+            </div>
+          </div>
+          <h2 class="card-title">Publishers Are Building <span class="highlight">AI</span> Detection Walls — Here's What That Means for <span class="highlight">Creators</span></h2>
+          <p class="card-excerpt">Major publications are quietly deploying AI-detection infrastructure. I interviewed editors at six top publishers to understand the new rules of submission in the GPT-5 era.</p>
+          <div class="card-author">
+            <div class="author-pill">
+              <div class="author-av"><img src="https://i.pravatar.cc/48?img=5" alt="Sofia Reyes"/></div>
+              <span class="author-name-text">Sofia Reyes</span>
+              <span class="author-badge">✓</span>
+            </div>
+            <div class="card-meta-dots">
+              <span>Apr 12, 2025</span>
+              <span class="meta-sep">·</span>
+              <span>9 min read</span>
+              <span class="meta-sep">·</span>
+              <span>11.2K views</span>
+            </div>
+          </div>
+          <div class="card-reactions">
+            <span class="reaction-item">❤️ 2.4K</span>
+            <span class="reaction-item">💬 189</span>
+            <span class="reaction-item">🔖 980 saved</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="card-action-btn" title="Save" onclick="toggleSave(event,this)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          </button>
+          <button class="card-action-btn" title="Share" onclick="shareArticle(event)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="result-card" onclick="openArticle(this)">
+        <div class="card-thumb">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80" alt=""/>
+          <div class="card-thumb-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-cat">Data Science</span>
+            <div class="card-relevance">
+              <div class="relevance-bar"><div class="relevance-fill" style="width:82%"></div></div>
+              82%
+            </div>
+          </div>
+          <h2 class="card-title">We Benchmarked <span class="highlight">GPT-5</span> Against 500 Professional Writers. Here's the Data.</h2>
+          <p class="card-excerpt">A rigorous, methodologically sound study of 500 writing samples — human vs. AI, blind-evaluated by editors across 12 major publications. The results challenge popular assumptions on both sides.</p>
+          <div class="card-author">
+            <div class="author-pill">
+              <div class="author-av"><img src="https://i.pravatar.cc/48?img=8" alt="James Okafor"/></div>
+              <span class="author-name-text">James Okafor</span>
+              <span class="author-badge">✓</span>
+            </div>
+            <div class="card-meta-dots">
+              <span>Apr 9, 2025</span>
+              <span class="meta-sep">·</span>
+              <span>14 min read</span>
+              <span class="meta-sep">·</span>
+              <span>32.7K views</span>
+            </div>
+          </div>
+          <div class="card-reactions">
+            <span class="reaction-item">❤️ 5.8K</span>
+            <span class="reaction-item">💬 604</span>
+            <span class="reaction-item">🔖 3.1K saved</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="card-action-btn saved" title="Saved" onclick="toggleSave(event,this)">
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          </button>
+          <button class="card-action-btn" title="Share" onclick="shareArticle(event)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="result-card" onclick="openArticle(this)">
+        <div class="card-thumb">
+          <img src="https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=400&q=80" alt=""/>
+          <div class="card-thumb-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-cat">Opinion</span>
+            <div class="card-relevance">
+              <div class="relevance-bar"><div class="relevance-fill" style="width:78%"></div></div>
+              78%
+            </div>
+          </div>
+          <h2 class="card-title">Stop Blaming <span class="highlight">AI</span> for the <span class="highlight">Content</span> Crisis. Blame the Attention Economy.</h2>
+          <p class="card-excerpt">The homogenization of online writing didn't start with GPT-5. It started with the like button, SEO optimization, and the platformization of discourse. AI is just the latest accelerant.</p>
+          <div class="card-author">
+            <div class="author-pill">
+              <div class="author-av"><img src="https://i.pravatar.cc/48?img=12" alt="Priya Sharma"/></div>
+              <span class="author-name-text">Priya Sharma</span>
+            </div>
+            <div class="card-meta-dots">
+              <span>Apr 7, 2025</span>
+              <span class="meta-sep">·</span>
+              <span>7 min read</span>
+              <span class="meta-sep">·</span>
+              <span>9.8K views</span>
+            </div>
+          </div>
+          <div class="card-reactions">
+            <span class="reaction-item">❤️ 1.9K</span>
+            <span class="reaction-item">💬 341</span>
+            <span class="reaction-item">🔖 720 saved</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="card-action-btn" title="Save" onclick="toggleSave(event,this)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          </button>
+          <button class="card-action-btn" title="Share" onclick="shareArticle(event)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="result-card" onclick="openArticle(this)">
+        <div class="card-thumb">
+          <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=400&q=80" alt=""/>
+          <div class="card-thumb-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-cat">Product Design</span>
+            <div class="card-relevance">
+              <div class="relevance-bar"><div class="relevance-fill" style="width:74%"></div></div>
+              74%
+            </div>
+          </div>
+          <h2 class="card-title">Designing the <span class="highlight">AI</span>-Assisted Writing Interface: UX Lessons from 50,000 Sessions</h2>
+          <p class="card-excerpt">When we shipped Scribix's AI writing assistant, we collected 50,000 sessions of usage data. The patterns that emerged reshaped everything we thought we knew about human-AI collaboration in writing.</p>
+          <div class="card-author">
+            <div class="author-pill">
+              <div class="author-av"><img src="https://i.pravatar.cc/48?img=20" alt="Lena Park"/></div>
+              <span class="author-name-text">Lena Park</span>
+            </div>
+            <div class="card-meta-dots">
+              <span>Apr 4, 2025</span>
+              <span class="meta-sep">·</span>
+              <span>11 min read</span>
+              <span class="meta-sep">·</span>
+              <span>14.3K views</span>
+            </div>
+          </div>
+          <div class="card-reactions">
+            <span class="reaction-item">❤️ 2.7K</span>
+            <span class="reaction-item">💬 198</span>
+            <span class="reaction-item">🔖 1.4K saved</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="card-action-btn" title="Save" onclick="toggleSave(event,this)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          </button>
+          <button class="card-action-btn" title="Share" onclick="shareArticle(event)">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+          </button>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="load-more-wrap">
+      <button class="load-more-btn" id="loadMoreBtn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        Load more results
+      </button>
+    </div>
+  </main>
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+
+    <!-- Related writers -->
+    <div class="side-widget">
+      <div class="widget-head">
+        <span class="widget-title">✍️ Top Authors on this Topic</span>
+        <a href="#" class="widget-link">See all</a>
+      </div>
+      <div class="widget-body">
+        <div class="author-suggest">
+          <div class="as-av"><img src="https://i.pravatar.cc/76?img=1" alt="Aria"/></div>
+          <div class="as-info">
+            <div class="as-name">Aria Chen</div>
+            <div class="as-handle">@aria.writes · 22 articles</div>
+          </div>
+          <button class="as-follow" onclick="toggleFollow(this)">Follow</button>
+        </div>
+        <div class="author-suggest">
+          <div class="as-av"><img src="https://i.pravatar.cc/76?img=3" alt="Marcus"/></div>
+          <div class="as-info">
+            <div class="as-name">Marcus Liu</div>
+            <div class="as-handle">@marcus.ink · 18 articles</div>
+          </div>
+          <button class="as-follow" onclick="toggleFollow(this)">Follow</button>
+        </div>
+        <div class="author-suggest">
+          <div class="as-av"><img src="https://i.pravatar.cc/76?img=8" alt="James"/></div>
+          <div class="as-info">
+            <div class="as-name">James Okafor</div>
+            <div class="as-handle">@james.data · 14 articles</div>
+          </div>
+          <button class="as-follow" onclick="toggleFollow(this)">Follow</button>
+        </div>
+        <div class="author-suggest">
+          <div class="as-av"><img src="https://i.pravatar.cc/76?img=5" alt="Sofia"/></div>
+          <div class="as-info">
+            <div class="as-name">Sofia Reyes</div>
+            <div class="as-handle">@sofia.design · 9 articles</div>
+          </div>
+          <button class="as-follow following" onclick="toggleFollow(this)">✓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related searches -->
+    <div class="side-widget">
+      <div class="widget-head">
+        <span class="widget-title">🔍 Related Searches</span>
+      </div>
+      <div class="widget-body" style="padding-top:8px;padding-bottom:10px;">
+        <div class="related-list">
+          <div class="related-item" onclick="doSearch('AI writing tools 2025')">
+            <svg class="related-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            AI writing tools 2025
+          </div>
+          <div class="related-item" onclick="doSearch('GPT-5 vs Claude')">
+            <svg class="related-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            GPT-5 vs Claude comparison
+          </div>
+          <div class="related-item" onclick="doSearch('AI journalism impact')">
+            <svg class="related-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            AI impact on journalism
+          </div>
+          <div class="related-item" onclick="doSearch('human vs AI writing')">
+            <svg class="related-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            Human vs AI writing quality
+          </div>
+          <div class="related-item" onclick="doSearch('future of blogging')">
+            <svg class="related-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            Future of blogging platforms
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trending tags -->
+    <div class="side-widget">
+      <div class="widget-head">
+        <span class="widget-title">🏷 Trending Tags</span>
+      </div>
+      <div class="widget-body">
+        <div class="tag-cloud">
+          <button class="tag-pill active" onclick="filterByTag(this,'GPT-5')">GPT-5</button>
+          <button class="tag-pill" onclick="filterByTag(this,'AI writing')">AI writing</button>
+          <button class="tag-pill" onclick="filterByTag(this,'content creation')">Content creation</button>
+          <button class="tag-pill" onclick="filterByTag(this,'LLM')">LLM</button>
+          <button class="tag-pill" onclick="filterByTag(this,'journalism')">Journalism</button>
+          <button class="tag-pill" onclick="filterByTag(this,'creativity')">Creativity</button>
+          <button class="tag-pill" onclick="filterByTag(this,'future of work')">Future of work</button>
+          <button class="tag-pill" onclick="filterByTag(this,'OpenAI')">OpenAI</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search history -->
+    <div class="side-widget">
+      <div class="widget-head">
+        <span class="widget-title">🕐 Recent Searches</span>
+        <button class="widget-link" onclick="clearHistory()">Clear all</button>
+      </div>
+      <div class="widget-body" style="padding-top:8px;padding-bottom:10px;">
+        <div class="history-list" id="historyList">
+          <div class="history-item" onclick="doSearch('AI writing tools')">
+            <span class="history-icon">🔍</span>
+            AI writing tools
+            <button class="history-del" onclick="removeHistory(event,this)">✕</button>
+          </div>
+          <div class="history-item" onclick="doSearch('machine learning content')">
+            <span class="history-icon">🔍</span>
+            machine learning content
+            <button class="history-del" onclick="removeHistory(event,this)">✕</button>
+          </div>
+          <div class="history-item" onclick="doSearch('deep work writers')">
+            <span class="history-icon">🔍</span>
+            deep work writers
+            <button class="history-del" onclick="removeHistory(event,this)">✕</button>
+          </div>
+          <div class="history-item" onclick="doSearch('newsletter growth')">
+            <span class="history-icon">🔍</span>
+            newsletter growth 2025
+            <button class="history-del" onclick="removeHistory(event,this)">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- No results -->
+<div class="no-results" id="noResults">
+  <div class="no-results-icon">🔍</div>
+  <h3>No results found</h3>
+  <p>We couldn't find anything for that query. Try different keywords or browse topics.</p>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── Theme ── */
+const html = document.documentElement;
+html.setAttribute('data-theme', localStorage.getItem('scribix-theme') || 'light');
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('scribix-theme', next);
+});
+
+/* ── Navbar scroll ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+/* ── Toast ── */
+let _tt;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ── Search logic ── */
+function updateSearchUI(query) {
+  query = query.trim();
+  if (!query) return;
+
+  document.getElementById('mainSearchInput').value = query;
+  document.getElementById('navSearchInput').value = query;
+  document.getElementById('crumbQuery').textContent = query;
+  document.getElementById('metaQuery').textContent = `"${query}"`;
+
+  // Highlight query terms in cards
+  const terms = query.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+  document.querySelectorAll('.highlight').forEach(el => {
+    el.classList.remove('highlight');
+  });
+
+  document.querySelectorAll('.result-card .card-title').forEach(title => {
+    let html = title.textContent;
+    terms.forEach(term => {
+      const re = new RegExp(`(${term})`, 'gi');
+      html = html.replace(re, '<span class="highlight">$1</span>');
+    });
+    title.innerHTML = html;
+  });
+
+  toast(`Searching for "${query}"…`);
+  document.getElementById('resultsList').style.opacity = '0.5';
+  setTimeout(() => {
+    document.getElementById('resultsList').style.opacity = '1';
+    document.getElementById('resultsList').style.transition = 'opacity .35s ease';
+  }, 600);
+}
+
+function doSearch(query) {
+  updateSearchUI(query);
+  document.getElementById('mainSearchInput').focus();
+}
+window.doSearch = doSearch;
+
+/* Main search bar */
+document.getElementById('mainSearchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch(e.target.value);
+});
+document.getElementById('searchBtn').addEventListener('click', () => {
+  doSearch(document.getElementById('mainSearchInput').value);
+});
+
+/* Nav search bar */
+document.getElementById('navSearchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch(e.target.value);
+});
+document.getElementById('navSearchClear').addEventListener('click', () => {
+  document.getElementById('navSearchInput').value = '';
+  document.getElementById('mainSearchInput').value = '';
+  document.getElementById('navSearchInput').focus();
+});
+
+/* Suggestion chips */
+document.querySelectorAll('.suggest-chip').forEach(chip => {
+  chip.addEventListener('click', () => doSearch(chip.dataset.query));
+});
+
+/* ── Filter chips ── */
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    toast(`Filtered: ${this.textContent.replace(/\d+(\.\d+)?K?/g,'').trim()}`);
+  });
+});
+
+/* ── Sort select ── */
+document.getElementById('sortSelect').addEventListener('change', function() {
+  toast(`Sorted by: ${this.value}`);
+});
+
+/* ── Save / Share ── */
+function toggleSave(e, btn) {
+  e.stopPropagation();
+  const saved = btn.classList.toggle('saved');
+  btn.innerHTML = saved
+    ? `<svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>`
+    : `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>`;
+  toast(saved ? '🔖 Saved to your library!' : 'Removed from library');
+}
+window.toggleSave = toggleSave;
+
+function shareArticle(e) {
+  e.stopPropagation();
+  navigator.clipboard.writeText(window.location.href).catch(() => {});
+  toast('🔗 Link copied to clipboard!');
+}
+window.shareArticle = shareArticle;
+
+function openArticle(card) {
+  const title = card.querySelector('.card-title').textContent;
+  window.location.href = 'scribix-article.html';
+}
+window.openArticle = openArticle;
+
+/* ── Follow ── */
+function toggleFollow(btn) {
+  const following = btn.classList.toggle('following');
+  const name = btn.closest('.author-suggest').querySelector('.as-name').textContent;
+  btn.textContent = following ? '✓' : 'Follow';
+  toast(following ? `✅ Following ${name}` : `Unfollowed ${name}`);
+}
+window.toggleFollow = toggleFollow;
+
+/* ── Tags ── */
+function filterByTag(btn, tag) {
+  document.querySelectorAll('.tag-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  doSearch(tag);
+}
+window.filterByTag = filterByTag;
+
+/* ── History ── */
+function removeHistory(e, btn) {
+  e.stopPropagation();
+  btn.closest('.history-item').remove();
+  toast('Search removed');
+}
+window.removeHistory = removeHistory;
+
+function clearHistory() {
+  document.getElementById('historyList').innerHTML = '<div style="font-size:13px;color:var(--ink-4);padding:8px 10px;">No recent searches</div>';
+  toast('History cleared');
+}
+window.clearHistory = clearHistory;
+
+/* ── Load more ── */
+let page = 1;
+document.getElementById('loadMoreBtn').addEventListener('click', function() {
+  this.textContent = 'Loading…';
+  this.disabled = true;
+  setTimeout(() => {
+    page++;
+    toast(`Loaded page ${page}`);
+    this.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg> Load more results`;
+    this.disabled = false;
+  }, 1000);
+});
+
+/* ── Scroll reveal ── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.result-card').forEach((card, i) => {
+  card.style.transition = `opacity .45s ease ${i * 0.07}s, transform .45s ease ${i * 0.07}s, border-color .22s ease, box-shadow .22s ease`;
+  observer.observe(card);
+});
+
+/* ── Read URL params to pre-fill search ── */
+const params = new URLSearchParams(window.location.search);
+const q = params.get('q');
+if (q) {
+  document.getElementById('mainSearchInput').value = q;
+  document.getElementById('navSearchInput').value = q;
+  document.getElementById('crumbQuery').textContent = q;
+  document.getElementById('metaQuery').textContent = `"${q}"`;
+}
+</script>
+</body>
+</html>

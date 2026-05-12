@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — Scribix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+/* ═══════════════════════════════════════════
+   SCRIBIX LOGIN — Premium CSS
+═══════════════════════════════════════════ */
+:root {
+  --bg: #f5f3ff;
+  --bg-panel: #ffffff;
+  --bg-input: #faf9ff;
+  --border: #e4dffa;
+  --border-focus: #7c3aed;
+  --text-primary: #0f0a1e;
+  --text-secondary: #5c5170;
+  --text-muted: #9b93b8;
+  --accent: #7c3aed;
+  --accent-2: #0ea5e9;
+  --gradient: linear-gradient(135deg, #7c3aed 0%, #0ea5e9 100%);
+  --gradient-soft: linear-gradient(135deg, #a78bfa18, #38bdf812);
+  --gradient-text: linear-gradient(135deg, #a78bfa, #38bdf8);
+  --shadow-sm: 0 1px 4px rgba(124,58,237,0.06);
+  --shadow-md: 0 8px 32px rgba(124,58,237,0.12);
+  --shadow-lg: 0 24px 64px rgba(124,58,237,0.18);
+  --shadow-input: 0 0 0 3px rgba(124,58,237,0.12);
+  --radius: 16px;
+  --font-body: 'Sora', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --transition: 0.22s cubic-bezier(0.4,0,0.2,1);
+  --left-bg: linear-gradient(145deg, #1a0533 0%, #0d1a3a 60%, #071828 100%);
+}
+[data-theme="dark"] {
+  --bg: #09090f;
+  --bg-panel: #111120;
+  --bg-input: #1a1a2e;
+  --border: #2a2645;
+  --border-focus: #a78bfa;
+  --text-primary: #f0ecff;
+  --text-secondary: #a89dc0;
+  --text-muted: #6b6385;
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-lg: 0 24px 64px rgba(0,0,0,0.5);
+  --shadow-input: 0 0 0 3px rgba(167,139,250,0.15);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-font-smoothing:antialiased;height:100%;}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text-primary);
+  min-height:100vh;
+  display:flex;
+  align-items:stretch;
+  transition:background var(--transition),color var(--transition);
+  overflow-x:hidden;
+}
+
+/* ── Layout ── */
+.login-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:100vh;
+  width:100%;
+}
+
+/* ══════════════════════════════
+   LEFT BRANDING PANEL
+══════════════════════════════ */
+.left-panel{
+  background:var(--left-bg);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:40px 52px 44px;
+  overflow:hidden;
+}
+/* animated mesh orbs */
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(70px);
+  pointer-events:none;
+}
+.orb-1{
+  width:420px;height:420px;
+  background:radial-gradient(circle,#7c3aed55,transparent 70%);
+  top:-80px;right:-120px;
+  animation:drift1 9s ease-in-out infinite alternate;
+}
+.orb-2{
+  width:320px;height:320px;
+  background:radial-gradient(circle,#0ea5e955,transparent 70%);
+  bottom:-60px;left:-80px;
+  animation:drift2 11s ease-in-out infinite alternate;
+}
+.orb-3{
+  width:240px;height:240px;
+  background:radial-gradient(circle,#a78bfa33,transparent 70%);
+  top:45%;left:30%;
+  animation:drift1 7s ease-in-out 2s infinite alternate;
+}
+@keyframes drift1{from{transform:translate(0,0) scale(1);}to{transform:translate(24px,32px) scale(1.06);}}
+@keyframes drift2{from{transform:translate(0,0) scale(1);}to{transform:translate(-20px,24px) scale(1.08);}}
+
+/* dot grid */
+.dot-grid{
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,0.08) 1px,transparent 1px);
+  background-size:32px 32px;
+  pointer-events:none;
+}
+
+/* diagonal line accent */
+.left-panel::after{
+  content:'';
+  position:absolute;
+  right:0;top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(167,139,250,0.4) 30%,rgba(56,189,248,0.4) 70%,transparent);
+}
+
+.left-top{position:relative;z-index:2;}
+.left-logo{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+}
+.left-logo-icon{
+  width:38px;height:38px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(167,139,250,0.35);
+  border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);
+}
+.left-logo-text{
+  font-size:22px;font-weight:700;
+  background:linear-gradient(135deg,#c4b5fd,#7dd3fc);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* center hero text */
+.left-hero{
+  position:relative;
+  z-index:2;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:60px 0;
+}
+.left-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 14px;
+  background:rgba(167,139,250,0.12);
+  border:1px solid rgba(167,139,250,0.25);
+  border-radius:50px;
+  font-size:12px;font-weight:600;
+  color:#c4b5fd;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:28px;
+  width:fit-content;
+}
+.eyebrow-dot{
+  width:6px;height:6px;
+  background:#a78bfa;
+  border-radius:50%;
+  animation:blink 2s ease infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.left-headline{
+  font-family:var(--font-display);
+  font-size:clamp(34px,3.5vw,52px);
+  font-weight:400;
+  line-height:1.15;
+  color:#ffffff;
+  margin-bottom:22px;
+}
+.left-headline em{
+  font-style:italic;
+  background:linear-gradient(135deg,#c4b5fd,#7dd3fc);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.left-sub{
+  font-size:15px;
+  color:rgba(255,255,255,0.5);
+  line-height:1.75;
+  max-width:380px;
+  margin-bottom:44px;
+}
+
+/* feature pills */
+.left-features{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.feature-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  animation:fadeInLeft 0.5s ease both;
+}
+.feature-item:nth-child(2){animation-delay:0.1s;}
+.feature-item:nth-child(3){animation-delay:0.2s;}
+@keyframes fadeInLeft{
+  from{opacity:0;transform:translateX(-16px);}
+  to{opacity:1;transform:translateX(0);}
+}
+.feature-icon{
+  width:38px;height:38px;
+  border-radius:11px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  font-size:17px;
+}
+.feature-text strong{
+  display:block;
+  font-size:13.5px;font-weight:600;
+  color:rgba(255,255,255,0.85);
+  margin-bottom:2px;
+}
+.feature-text span{
+  font-size:12px;
+  color:rgba(255,255,255,0.38);
+}
+
+/* testimonial card at bottom */
+.left-bottom{
+  position:relative;z-index:2;
+}
+.testimonial-mini{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:14px;
+  padding:18px 20px;
+  backdrop-filter:blur(12px);
+}
+.testimonial-mini p{
+  font-size:13px;
+  color:rgba(255,255,255,0.6);
+  line-height:1.6;
+  font-style:italic;
+  margin-bottom:14px;
+}
+.testimonial-mini-author{
+  display:flex;align-items:center;gap:10px;
+}
+.testimonial-mini-author img{
+  width:30px;height:30px;
+  border-radius:50%;
+  border:1.5px solid rgba(167,139,250,0.4);
+  object-fit:cover;
+}
+.testimonial-mini-author strong{
+  display:block;font-size:12.5px;font-weight:600;
+  color:rgba(255,255,255,0.8);
+}
+.testimonial-mini-author span{
+  font-size:11px;color:rgba(255,255,255,0.35);
+}
+.stars-mini{font-size:11px;color:#f59e0b;letter-spacing:1px;margin-bottom:8px;}
+
+/* ══════════════════════════════
+   RIGHT FORM PANEL
+══════════════════════════════ */
+.right-panel{
+  background:var(--bg-panel);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:48px 40px;
+  position:relative;
+}
+
+/* theme toggle */
+.theme-toggle{
+  position:absolute;
+  top:24px;right:24px;
+  width:38px;height:38px;
+  border-radius:10px;
+  background:var(--bg-input);
+  border:1px solid var(--border);
+  font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:all var(--transition);
+}
+.theme-toggle:hover{border-color:var(--border-focus);transform:scale(1.05);}
+.moon-icon{display:none;}
+[data-theme="dark"] .sun-icon{display:none;}
+[data-theme="dark"] .moon-icon{display:block;}
+
+/* back link */
+.back-link{
+  position:absolute;
+  top:28px;left:28px;
+  display:flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:500;
+  color:var(--text-muted);
+  text-decoration:none;
+  transition:color var(--transition);
+}
+.back-link:hover{color:var(--accent);}
+.back-link svg{transition:transform var(--transition);}
+.back-link:hover svg{transform:translateX(-3px);}
+
+/* form wrapper */
+.form-box{
+  width:100%;
+  max-width:400px;
+  animation:formIn 0.55s cubic-bezier(0.34,1.2,0.64,1) both;
+}
+@keyframes formIn{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* header */
+.form-header{
+  margin-bottom:32px;
+}
+.form-welcome{
+  font-size:13px;font-weight:600;
+  color:var(--accent);
+  letter-spacing:0.5px;
+  margin-bottom:8px;
+}
+.form-title{
+  font-family:var(--font-display);
+  font-size:clamp(26px,3vw,34px);
+  font-weight:400;
+  line-height:1.2;
+  color:var(--text-primary);
+  margin-bottom:10px;
+}
+.form-title em{
+  font-style:italic;
+  background:var(--gradient-text);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.form-subtitle{
+  font-size:14px;
+  color:var(--text-muted);
+  line-height:1.6;
+}
+
+/* Google btn */
+.btn-google{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  padding:13px 20px;
+  border-radius:12px;
+  border:1.5px solid var(--border);
+  background:var(--bg-input);
+  color:var(--text-primary);
+  font-size:14px;font-weight:600;
+  font-family:var(--font-body);
+  cursor:pointer;
+  transition:all var(--transition);
+  text-decoration:none;
+  margin-bottom:24px;
+}
+.btn-google:hover{
+  border-color:var(--border-focus);
+  background:var(--gradient-soft);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-md);
+}
+.google-icon{
+  width:20px;height:20px;flex-shrink:0;
+}
+
+/* divider */
+.divider{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:24px;
+  color:var(--text-muted);
+  font-size:12px;font-weight:500;
+}
+.divider::before,.divider::after{
+  content:'';flex:1;
+  height:1px;background:var(--border);
+}
+
+/* form fields */
+.field{
+  margin-bottom:18px;
+}
+.field-label{
+  display:block;
+  font-size:13px;font-weight:600;
+  color:var(--text-secondary);
+  margin-bottom:7px;
+}
+.input-wrap{
+  position:relative;
+}
+.input-icon{
+  position:absolute;
+  left:14px;top:50%;transform:translateY(-50%);
+  color:var(--text-muted);
+  pointer-events:none;
+  transition:color var(--transition);
+}
+.field-input{
+  width:100%;
+  padding:13px 14px 13px 42px;
+  border-radius:12px;
+  border:1.5px solid var(--border);
+  background:var(--bg-input);
+  color:var(--text-primary);
+  font-size:14px;
+  font-family:var(--font-body);
+  outline:none;
+  transition:all var(--transition);
+  appearance:none;
+}
+.field-input::placeholder{color:var(--text-muted);}
+.field-input:focus{
+  border-color:var(--border-focus);
+  background:var(--bg-panel);
+  box-shadow:var(--shadow-input);
+}
+.field-input:focus ~ .input-icon,
+.input-wrap:focus-within .input-icon{
+  color:var(--accent);
+}
+/* password toggle */
+.pw-toggle{
+  position:absolute;
+  right:14px;top:50%;transform:translateY(-50%);
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:color var(--transition);
+  display:flex;align-items:center;
+}
+.pw-toggle:hover{color:var(--accent);}
+
+/* field bottom row */
+.field-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:28px;
+  gap:12px;
+  flex-wrap:wrap;
+}
+/* custom checkbox */
+.checkbox-label{
+  display:flex;align-items:center;
+  gap:9px;
+  cursor:pointer;
+  font-size:13.5px;
+  color:var(--text-secondary);
+  font-weight:500;
+  user-select:none;
+}
+.checkbox-label input[type="checkbox"]{display:none;}
+.checkbox-box{
+  width:18px;height:18px;
+  border-radius:5px;
+  border:1.5px solid var(--border);
+  background:var(--bg-input);
+  display:flex;align-items:center;justify-content:center;
+  transition:all var(--transition);
+  flex-shrink:0;
+}
+.checkbox-label input:checked + .checkbox-box{
+  background:var(--gradient);
+  border-color:transparent;
+}
+.checkbox-box svg{
+  display:none;
+}
+.checkbox-label input:checked + .checkbox-box svg{
+  display:block;
+}
+.forgot-link{
+  font-size:13.5px;font-weight:600;
+  color:var(--accent);
+  text-decoration:none;
+  transition:opacity var(--transition);
+}
+.forgot-link:hover{opacity:0.75;}
+
+/* submit btn */
+.btn-submit{
+  width:100%;
+  padding:14px 20px;
+  border-radius:12px;
+  background:var(--gradient);
+  color:#fff;
+  font-size:15px;font-weight:700;
+  font-family:var(--font-body);
+  border:none;
+  cursor:pointer;
+  transition:all var(--transition);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 6px 20px rgba(124,58,237,0.35);
+  margin-bottom:24px;
+  position:relative;
+  overflow:hidden;
+}
+.btn-submit::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);
+  opacity:0;
+  transition:opacity var(--transition);
+}
+.btn-submit:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(124,58,237,0.45);
+}
+.btn-submit:hover::before{opacity:1;}
+.btn-submit:active{transform:translateY(0);box-shadow:0 4px 16px rgba(124,58,237,0.35);}
+
+/* submit loading state */
+.btn-submit .spinner{
+  width:18px;height:18px;
+  border:2px solid rgba(255,255,255,0.35);
+  border-top-color:#fff;
+  border-radius:50%;
+  display:none;
+  animation:spin 0.7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.btn-submit.loading .btn-text{display:none;}
+.btn-submit.loading .spinner{display:block;}
+
+/* signup link */
+.signup-row{
+  text-align:center;
+  font-size:13.5px;
+  color:var(--text-muted);
+}
+.signup-row a{
+  font-weight:700;
+  color:var(--accent);
+  text-decoration:none;
+  transition:opacity var(--transition);
+}
+.signup-row a:hover{opacity:0.75;}
+
+/* toast */
+.toast{
+  position:fixed;
+  bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:#1a1a2e;
+  color:#fff;
+  padding:12px 22px;
+  border-radius:50px;
+  font-size:13.5px;font-weight:600;
+  box-shadow:0 8px 32px rgba(0,0,0,0.3);
+  display:flex;align-items:center;gap:10px;
+  transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),opacity 0.25s ease;
+  opacity:0;
+  z-index:9999;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.toast.success::before{content:'✓';color:#22c55e;font-weight:800;}
+.toast.error::before{content:'✕';color:#f87171;font-weight:800;}
+
+/* field error */
+.field-error{
+  font-size:12px;color:#f87171;font-weight:500;
+  margin-top:6px;display:none;
+}
+.field.has-error .field-input{border-color:#f87171;box-shadow:0 0 0 3px rgba(248,113,113,0.15);}
+.field.has-error .field-error{display:block;}
+.field.has-error .input-icon{color:#f87171;}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width:900px){
+  .login-layout{grid-template-columns:1fr;}
+  .left-panel{display:none;}
+  .right-panel{
+    min-height:100vh;
+    justify-content:center;
+    padding:80px 24px 48px;
+  }
+  .back-link{top:20px;left:20px;}
+  .theme-toggle{top:20px;right:20px;}
+}
+@media (max-width:480px){
+  .right-panel{padding:80px 16px 40px;}
+  .form-box{max-width:100%;}
+}
+
+/* stagger field animations */
+.field:nth-child(1){animation:fadeInUp 0.4s 0.15s ease both;}
+.field:nth-child(2){animation:fadeInUp 0.4s 0.22s ease both;}
+.field-row{animation:fadeInUp 0.4s 0.29s ease both;}
+.btn-submit{animation:fadeInUp 0.4s 0.34s ease both;}
+.btn-google{animation:fadeInUp 0.4s 0.05s ease both;}
+.divider{animation:fadeInUp 0.4s 0.1s ease both;}
+.signup-row{animation:fadeInUp 0.4s 0.4s ease both;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* floating decorative card on right panel (desktop) */
+.right-decoration{
+  position:absolute;
+  bottom:32px;left:32px;
+  background:var(--bg-input);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 18px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:var(--shadow-sm);
+  max-width:240px;
+  animation:floatCard 4s ease-in-out infinite;
+}
+@keyframes floatCard{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-6px);}
+}
+.right-decoration-icon{
+  width:36px;height:36px;
+  background:var(--gradient-soft);
+  border:1px solid var(--border);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;
+  flex-shrink:0;
+}
+.right-decoration strong{font-size:13px;font-weight:700;color:var(--text-primary);}
+.right-decoration span{font-size:11.5px;color:var(--text-muted);}
+
+@media (max-width:900px){.right-decoration{display:none;}}
+  </style>
+</head>
+<body>
+
+<div class="login-layout">
+
+  <!-- ═══════════════ LEFT PANEL ═══════════════ -->
+  <div class="left-panel">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="dot-grid"></div>
+
+    <!-- Logo -->
+    <div class="left-top">
+      <a href="index.html" class="left-logo">
+        <span class="left-logo-icon">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+            <defs>
+              <linearGradient id="lg1" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/>
+              </linearGradient>
+            </defs>
+            <path d="M4 6C4 4.9 4.9 4 6 4h10l8 8v10c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6z" fill="url(#lg1)" opacity=".25"/>
+            <path d="M14 4l8 8h-6a2 2 0 01-2-2V4z" fill="url(#lg1)" opacity=".6"/>
+            <path d="M8 13h12M8 17h8" stroke="url(#lg1)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="left-logo-text">Scribix</span>
+      </a>
+    </div>
+
+    <!-- Hero text -->
+    <div class="left-hero">
+      <div class="left-eyebrow">
+        <span class="eyebrow-dot"></span>
+        AI-Powered Platform
+      </div>
+      <h1 class="left-headline">
+        Your words,<br>
+        <em>amplified</em> by<br>
+        intelligence.
+      </h1>
+      <p class="left-sub">
+        Join 120,000+ writers and readers who use Scribix to write better, discover deeper, and grow faster — with AI woven into every word.
+      </p>
+
+      <div class="left-features">
+        <div class="feature-item">
+          <div class="feature-icon">✍️</div>
+          <div class="feature-text">
+            <strong>AI Writing Assistant</strong>
+            <span>Drafts, edits & polishes in real-time</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-text">
+            <strong>Smart Summarization</strong>
+            <span>Any article distilled in seconds</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🌐</div>
+          <div class="feature-text">
+            <strong>Global Community</strong>
+            <span>Reach readers who truly care</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial -->
+    <div class="left-bottom">
+      <div class="testimonial-mini">
+        <div class="stars-mini">★★★★★</div>
+        <p>"Scribix changed how I write. The AI doesn't replace my voice — it makes it louder. Best platform I've ever used."</p>
+        <div class="testimonial-mini-author">
+          <img src="https://i.pravatar.cc/60?img=20" alt="Rachel"/>
+          <div>
+            <strong>Rachel Kim</strong>
+            <span>Tech Blogger · 50K+ followers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ RIGHT PANEL ═══════════════ -->
+  <div class="right-panel">
+
+    <!-- Nav controls -->
+    <a href="/homepage" class="back-link">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to home
+    </a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="sun-icon">☀️</span>
+      <span class="moon-icon">🌙</span>
+    </button>
+
+    <!-- Form -->
+    <div class="form-box">
+      <div class="form-header">
+        <p class="form-welcome">Welcome back 👋</p>
+        <h2 class="form-title">Sign in to <em>Scribix</em></h2>
+        <p class="form-subtitle">Your stories, your community — sign in to continue.</p>
+      </div>
+
+      <!-- Google -->
+      <a href="#" class="btn-google" id="googleBtn">
+        <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </a>
+
+      <!-- Divider -->
+      <div class="divider">or sign in with email</div>
+
+      <!-- Form fields -->
+      <form id="loginForm" novalidate>
+
+        <div class="field" id="fieldEmail">
+          <label class="field-label" for="email">Email address</label>
+          <div class="input-wrap">
+            <svg class="input-icon" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <input
+              type="email"
+              id="email"
+              class="field-input"
+              placeholder="you@example.com"
+              autocomplete="email"
+            />
+          </div>
+          <div class="field-error" id="emailError">Please enter a valid email address.</div>
+        </div>
+
+        <div class="field" id="fieldPassword">
+          <label class="field-label" for="password">Password</label>
+          <div class="input-wrap">
+            <svg class="input-icon" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <input
+              type="password"
+              id="password"
+              class="field-input"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              style="padding-right:46px;"
+            />
+            <button type="button" class="pw-toggle" id="pwToggle" aria-label="Show password" tabindex="-1">
+              <svg id="eyeOpen" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg id="eyeClosed" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+          <div class="field-error" id="passwordError">Password must be at least 8 characters.</div>
+        </div>
+
+        <div class="field-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="rememberMe" />
+            <span class="checkbox-box">
+              <svg width="10" height="10" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 12 12">
+                <polyline points="2,6 5,9 10,3"/>
+              </svg>
+            </span>
+            Remember me
+          </label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-text">Sign In</span>
+          <div class="spinner"></div>
+        </button>
+
+      </form>
+
+      <p class="signup-row">
+        Don't have an account? <a href="signup.html">Create one free →</a>
+      </p>
+    </div>
+
+    <!-- Floating decoration card -->
+    <div class="right-decoration">
+      <div class="right-decoration-icon">🤖</div>
+      <div>
+        <strong>AI ready to assist</strong>
+        <span>Scribix AI is online</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Theme Toggle ──
+const themeToggle = document.getElementById('themeToggle');
+const html = document.documentElement;
+const saved = localStorage.getItem('scribix-theme') || 'light';
+html.setAttribute('data-theme', saved);
+themeToggle.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('scribix-theme', next);
+});
+
+// ── Password toggle ──
+const pwToggle = document.getElementById('pwToggle');
+const pwInput = document.getElementById('password');
+const eyeOpen = document.getElementById('eyeOpen');
+const eyeClosed = document.getElementById('eyeClosed');
+pwToggle.addEventListener('click', () => {
+  const shown = pwInput.type === 'text';
+  pwInput.type = shown ? 'password' : 'text';
+  eyeOpen.style.display = shown ? 'block' : 'none';
+  eyeClosed.style.display = shown ? 'none' : 'block';
+});
+
+// ── Toast ──
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ── Validation ──
+function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+function setFieldError(fieldId, show) {
+  document.getElementById(fieldId).classList.toggle('has-error', show);
+}
+
+// ── Form submit ──
+const form = document.getElementById('loginForm');
+const submitBtn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  let valid = true;
+  if (!validateEmail(email)) { setFieldError('fieldEmail', true); valid = false; }
+  else setFieldError('fieldEmail', false);
+  if (password.length < 8) { setFieldError('fieldPassword', true); valid = false; }
+  else setFieldError('fieldPassword', false);
+
+  if (!valid) return;
+
+  // simulate async login
+  submitBtn.classList.add('loading');
+  submitBtn.disabled = true;
+
+  await new Promise(r => setTimeout(r, 1800));
+
+  submitBtn.classList.remove('loading');
+  submitBtn.disabled = false;
+
+  // demo: show success toast (in real app, redirect or show error)
+  showToast('Signed in successfully! Redirecting…', 'success');
+  setTimeout(() => {
+    // window.location.href = '/dashboard'; // uncomment in real app
+    showToast('(Demo mode — no redirect)', 'success');
+  }, 2000);
+});
+
+// ── Clear errors on type ──
+document.getElementById('email').addEventListener('input', () => setFieldError('fieldEmail', false));
+document.getElementById('password').addEventListener('input', () => setFieldError('fieldPassword', false));
+
+// ── Google btn demo ──
+document.getElementById('googleBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  showToast('Redirecting to Google…', 'success');
+});
+
+// ── Forgot password demo ──
+document.querySelector('.forgot-link').addEventListener('click', (e) => {
+  e.preventDefault();
+  showToast('Password reset link sent to your email!', 'success');
+});
+</script>
+</body>
+</html>
